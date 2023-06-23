@@ -2,9 +2,7 @@
 
 const App = () => {
   return (
-    <div>
-      welcome here 
-    </div>
+    <div>App</div>
   )
 }
 
