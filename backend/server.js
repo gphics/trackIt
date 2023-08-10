@@ -1,16 +1,50 @@
+require("dotenv").config();
+const express = require("express");
+const MongoStore = require("connect-mongo");
+const session = require("express-session");
+const dbConnect = require("./Config/dbConnect");
+const userRouter = require("./Routes/userRoutes");
+const debtRouter = require("./Routes/debtRoute");
+const app = express();
+const reminderRouter = require("./Routes/reminder");
+dbConnect();
 
-
-const express = require("express")
-
-const app = express()
-
+// -----------
+// ----------
 // middlewares
-
-
+app.use(express.static("public"));
+// to allow sending of json data
+app.use(express.json());
+// to allow receiving form data
+app.use(express.urlencoded({ extended: true }));
+// configuring express session
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    saveUninitialized: false,
+    resave: true,
+    rolling: true,
+    cookie: { maxAge: 24 * 60 * 60 * 1000 },
+    store: MongoStore.create({
+      mongoUrl: process.env.DB_URL,
+      ttl: 24 * 60 * 60,
+    }),
+  })
+);
+// -----------
+// ----------
 // routes
-app.get("/", (req, res)=>{
-    res.json({"msg":"welcome here"})
-})
+app.use("/user", userRouter);
+app.use("/debt", debtRouter);
+app.use("/reminder", reminderRouter);
+// app.get("/", (req, /))
+// -----------
+// ----------
 
-
-app.listen(9000, ()=>console.log("server connected"))
+// error handling
+app.use((err, req, res, next) => {
+  const { statusCode, message } = err;
+  res.status(statusCode).json({ status: "failed", statusCode, message });
+});
+// listening to the server
+app.listen(9000, () => console.log("server connected"));
