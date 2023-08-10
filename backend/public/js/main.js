@@ -1,5 +1,5 @@
 const publicKey =
-  "BOA718tyMfOJLiHbaJFnt4_yC78MKY5HWW25wsQOk0Dd7KxILr3vwvCSVbBbWv7w93VVHDX05P0xLHCK1ALxJCg";
+  "BP6wc7uBiJ-S1LbydpZM7-WRsh2X1dUqcnOWL-TqCgiB9UblBfT0XBrTt2JzrjvAKZtiobBIDJCRsyZzcAUMWsw";
 if (navigator.serviceWorker) {
   regSW();
 }
