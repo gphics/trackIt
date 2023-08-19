@@ -6,7 +6,7 @@ module.exports = async (req, res, next) => {
   try {
     const debt = await DebtModel.findByIdAndDelete(req.params.debtID);
     if (!debt) {
-      return next(activateError(404, "debt not found"));
+      return next(activateError("debt not found", 404));
     }
     const user = await UserModel.findById(req.session.authID);
     user.Debts = user.Debts.filter((id) => id.toString() !== req.params.debtID);
@@ -26,6 +26,6 @@ module.exports = async (req, res, next) => {
     await user.save();
     res.json({ data: "debt deleted" });
   } catch (error) {
-    next(activateError(500, error.message));
+    next(activateError(error.message));
   }
 };

@@ -1,8 +1,8 @@
-const {configuredCloudinary} = require("../../../Config/cloudinaryStore");
+const { configuredCloudinary } = require("../../../Config/cloudinaryStore");
 const UserModel = require("../../../Models/UserModel");
 const activateError = require("../../../Utils/activateError");
 
-module.exports = async (req, res, next) =>{
+module.exports = async (req, res, next) => {
   // if the user didint provide the file
   if (!req.file) {
     return next(activateError(400, "file must be uploaded"));
@@ -19,10 +19,10 @@ module.exports = async (req, res, next) =>{
       req.file.mimetype === "image/jpg" ||
       req.file.mimetype === "image/png"
     ) {
-      const user = await UserModel.findByIdAndUpdate(req.session.authID);
-      // uploading the image to cloudinary
+      const user = await UserModel.findById(req.session.authID);
+      // deleting the image on cloudinary
       await configuredCloudinary.uploader.destroy(user.avatar.public_id);
-
+      // uploading new one
       await configuredCloudinary.uploader.upload(
         req.file.path,
         { folder: "trackIt" },
@@ -31,7 +31,7 @@ module.exports = async (req, res, next) =>{
           const { public_id, secure_url } = result;
           user.avatar = { url: secure_url, public_id };
           const resavedUser = await user.save();
-          res.json(resavedUser);
+          res.json({ data: resavedUser });
         }
       );
     } else {

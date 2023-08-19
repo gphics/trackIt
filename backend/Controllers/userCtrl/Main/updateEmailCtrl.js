@@ -1,7 +1,11 @@
 const UserModel = require("../../../Models/UserModel");
 const activateError = require("../../../Utils/activateError");
 
-module.exports = async (req, res, next)=> {
+module.exports = async (req, res, next) => {
+  const { email } = req.body
+  if (!email) {
+    return next(activateError("email not provided"))
+  }
   try {
     const user = await UserModel.findByIdAndUpdate(
       req.session.authID,
@@ -10,6 +14,6 @@ module.exports = async (req, res, next)=> {
     );
     res.json({ data: user });
   } catch (error) {
-    next(activateError(400, error.message));
+    next(activateError(error.message));
   }
 }; 

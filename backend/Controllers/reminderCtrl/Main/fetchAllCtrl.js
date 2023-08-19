@@ -7,6 +7,6 @@ module.exports = async (req, res, next) => {
     const reminders = await ReminderModel.find({ user: authID });
     res.json({ data: reminders });
   } catch (error) {
-    next(activateError(400, error.message));
+    next(activateError(error.message));
   }
 };

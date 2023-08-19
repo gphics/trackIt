@@ -51,7 +51,9 @@ module.exports = async (req, res, next) => {
       await user.save();
       res.json({ data: debt });
     } else {
-      next(activateError(404, "debt not found"));
+      next(activateError("debt not found", 404));
     }
-  } catch (error) {}
+  } catch (error) {
+    next(activateError(error.message))
+  }
 };

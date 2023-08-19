@@ -1,0 +1,118 @@
+@use "./colors.scss" as colors;
+// main container
+
+.navbar {
+    display: flex;
+    height: 80px;
+    justify-content: center;
+    align-items: center;
+
+}
+
+// logo
+.nav-logo {
+    width: 100px;
+    margin: 10px 0 0 15px;
+    flex: 0 0 auto;
+}
+
+// header
+@mixin headerMixin {
+    display: flex;
+    background-color: colors.$off-white;
+    width: 96vw;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.nav-header {
+    margin: 10px 0;
+    align-items: center;
+    height: 50px;
+    justify-content: space-between;
+    @include headerMixin()
+}
+
+// all links
+.nav-list {
+    display: flex;
+    margin: 0 10px;
+    align-items: center;
+}
+
+// desktop style
+.nav-desktop {
+    width: 80%;
+    height: 100%;
+    justify-content: space-around;
+
+    // styling desktop link
+
+    @media (max-width:760px) {
+        display: none;
+    }
+}
+
+// mobile style
+.nav-mobile {
+    @include headerMixin();
+    display: flex;
+    position: absolute;
+    top: 70px;
+    flex-direction: column;
+    height: 30vh;
+    margin: 0 auto;
+    justify-content: space-around;
+    z-index: 10;
+
+    @media (min-width:760px) {
+        display: none;
+    }
+}
+
+.hide-nav {
+    opacity: 0;
+    top: -70vh
+}
+
+// each nav link
+.nav-link {
+    text-decoration: none;
+    text-transform: capitalize;
+    font-weight: 600;
+    color: colors.$black;
+}
+
+// each active link
+
+@mixin activeLink {
+    text-decoration: underline;
+    text-decoration-thickness: 3px;
+}
+
+.nav-link {
+    &:hover {
+        @include activeLink()
+    }
+
+}
+
+.nav-active {
+    @include activeLink
+}
+
+// menu icon
+.menu-icon {
+    color: colors.$black;
+    transform: scale(2.5);
+    margin-right: 15px;
+
+    &:hover {
+        transform: scale(2.7);
+        cursor: pointer;
+    }
+
+    @media (min-width:760px) {
+        display: none;
+    }
+}

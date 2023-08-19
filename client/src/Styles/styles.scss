@@ -1,0 +1,18 @@
+// importing the required module
+@use "./utils/index";
+// default configuration
+
+// all element
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    transition: all .5s;
+}
+
+// the root element
+#root {
+    display: flex;
+    flex-direction: column;
+    font-family: sans-serif;
+}

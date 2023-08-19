@@ -39,6 +39,6 @@ module.exports = async (req, res, next) => {
       if (savingUser) res.json({ data: debt });
     }
   } catch (error) {
-    next(activateError(500, error.message));
+    next(activateError(error.message));
   }
 };

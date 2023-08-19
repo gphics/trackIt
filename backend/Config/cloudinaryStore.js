@@ -7,15 +7,7 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
   secure: true,
 });
-/*
 
-cloudinary.config({
-  cloud_name: "dtu3jive9",
-  api_key: "312329342534745",
-  api_secret: "HS2zpixCKN85GIh2jSB5rRb_-80",
-  secure:true,
-});
-*/
 const multer = require("multer");
 
 const storage = multer.diskStorage({

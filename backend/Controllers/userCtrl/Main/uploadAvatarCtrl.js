@@ -5,11 +5,11 @@ const activateError = require("../../../Utils/activateError");
 module.exports = async (req, res, next) => {
   // if the user didint provide the file
   if (!req.file) {
-    return next(activateError(400, "file must be uploaded"));
+    return next(activateError("file must be uploaded"));
   }
   // rejecting i the file size is >= 1.3mb
   if (req.file.size > 1572864) {
-    return next(activateError(400, "file size must be less than 1.5mb"));
+    return next(activateError("file size must be less than 1.5mb"));
   }
 
   try {
@@ -36,11 +36,11 @@ module.exports = async (req, res, next) => {
       );
     } else {
       return next(
-        activateError(400, `${req.file.mimetype} format not supported`)
+        activateError(`${req.file.mimetype} format not supported`)
       );
     }
   } catch (error) {
     console.log(error);
-    next(activateError(400, error.message));
+    next(activateError(error.message));
   }
 };

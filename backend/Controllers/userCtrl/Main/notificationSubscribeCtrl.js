@@ -14,6 +14,6 @@ module.exports = async (req, res, next) => {
     await webPush.sendNotification(subscription, payload);
     res.json({ data: "subscription added" });
   } catch (error) {
-    next(activateError(500, error.message));
+    next(activateError(error.message));
   }
 };

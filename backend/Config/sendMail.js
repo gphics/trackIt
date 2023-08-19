@@ -10,17 +10,14 @@ const mailTransporter = nodeMailer.createTransport({
     pass: process.env.MAIL_PASSWORD,
   },
 });
- 
+
 module.exports = async (recepient, subject, html) => {
   try {
-    const main = await mailTransporter.sendMail({
+    await mailTransporter.sendMail({
       from: process.env.MAIL_USER,
       to: recepient,
       subject,
       html,
     });
-
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };

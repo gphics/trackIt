@@ -8,6 +8,6 @@ module.exports = async (req, res, next) => {
       .populate("Reminders");
     res.json({ data: user });
   } catch (error) {
-    next(activateError(500, error.message));
+    next(activateError(error.message));
   }
 };

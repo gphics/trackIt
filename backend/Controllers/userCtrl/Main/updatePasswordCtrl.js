@@ -1,16 +1,15 @@
 const UserModel = require("../../../Models/UserModel");
 const activateError = require("../../../Utils/activateError");
 
-const bcrypt = require("bcryptjs")
+const bcrypt = require("bcryptjs");
 
-
-module.exports = async (req, res, next)=> {
+module.exports = async (req, res, next) => {
   const { oldPassword, newPassword } = req.body;
   if (
     !oldPassword ||
     !newPassword ||
-    oldPassword.length <6||
-    newPassword.length <6
+    oldPassword.length < 6 ||
+    newPassword.length < 6
   ) {
     return next(
       activateError(400, "password field length must be greater than 7")

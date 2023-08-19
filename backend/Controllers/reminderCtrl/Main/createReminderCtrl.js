@@ -6,7 +6,7 @@ const reminderCreated = require("../cron/reminderCreated");
 module.exports = async (req, res, next) => {
   const { title, dueDate, repeat, repetitionInterval, note } = req.body;
   if (!title || !note || !dueDate) {
-    return next(activateError(404, "required field must be provided"));
+    return next(activateError("required field must be provided"));
   }
   try {
     const reminder = await ReminderModel.create({
@@ -26,8 +26,6 @@ module.exports = async (req, res, next) => {
     // sending the created reminder
     res.json({ data: reminder });
   } catch (error) {
-    next(activateError(400, error.message));
+    next(activateError(error.message));
   }
 };
-
-

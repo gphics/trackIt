@@ -4,33 +4,29 @@ const bcrypt = require("bcryptjs");
 const randomNumberGen = require("../../../Utils/randomNumberGen");
 const sendMail = require("../../../Config/sendMail");
 const nodeCron = require("node-cron");
-const {DFAString} = require("../../../Utils/cronStringGenerators");
+const { DFAString } = require("../../../Utils/cronStringGenerators");
 
 module.exports = async (req, res, next) => {
   // making sure user is not logged in before
-  if (req.session.authID)
-    return next(activateError(400, "authenticated already"));
+  if (req.session.authID) return next(activateError("authenticated already"));
   const { password, email } = req.body;
   // checking the authenticity of the provided info
   if (!password || password.length < 6 || !email)
     return next(
-      activateError(
-        400,
-        "field must be filled and password length must be up to 6"
-      )
+      activateError("field must be filled and password length must be up to 6")
     );
   try {
     // fetching the user using the provided email
     const user = await UserModel.findOne({ email });
 
     // throwing an error if the user does not exist
-    if (!user) return next(activateError(400, "invalid credentials"));
+    if (!user) return next(activateError("invalid credentials"));
     // decoding the password
     const decodedPassword = await bcrypt.compare(password, user.password);
 
     // if the inputed password is correct
     if (!decodedPassword) {
-      return next(activateError(400, "invalid credentials"));
+      return next(activateError("invalid credentials"));
     }
     // getting DFA state
     const { state } = user.dual_factor_auth;
@@ -62,9 +58,7 @@ module.exports = async (req, res, next) => {
       </body>
       </html>
     `;
-      sendMail(email, "OTP from TrackIt", html).catch((err) => {
-        return next(activateError(400, "king of bastard"));
-      });
+      sendMail(email, "OTP from TrackIt", html);
 
       // updating the user data
       user.dual_factor_auth.passcode = passcode;
@@ -83,6 +77,6 @@ module.exports = async (req, res, next) => {
       });
     }
   } catch (error) {
-    next(activateError(400, error.message));
+    next(activateError(error.message));
   }
 };

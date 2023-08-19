@@ -22,6 +22,6 @@ module.exports = async (req, res, next) => {
     // returning the updated reminder
     res.json({ data: reminder });
   } catch (error) {
-    next(activateError(400, error.message));
+    next(activateError(error.message));
   }
 };

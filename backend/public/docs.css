@@ -1,0 +1,91 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    overflow-x: hidden;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+.sections {
+    margin: 10px;
+    width: calc(100vw - 20px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+}
+
+/* into */
+.intro p {
+    margin: 5px 0;
+}
+
+.intro h2 {
+    text-transform: capitalize;
+}
+
+/* feature */
+.feature-list {
+    width: 90%;
+    margin: 2px 15px;
+}
+
+.model {
+    margin: 5px 10px
+}
+
+.model ul {
+    margin: 0 15px;
+}
+
+li {
+    list-style: square;
+    padding: 5px;
+    margin: 5px 0;
+    width: 80%;
+
+
+}
+
+.list-pikin {
+    background-color: white;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    margin: 5px;
+
+}
+
+.list-pikin li {
+    width: 95%;
+    flex: 1 1 auto
+}
+
+h5 {
+    background-color: blue;
+    color: white;
+    border-radius: 5px;
+    width: max-content;
+    padding: 5px 10px;
+}
+
+.each-model-list {
+    background-color: #EFEFEF;
+    ;
+    margin: 5px 0;
+    border-radius: 5px;
+}
+
+.route{
+    margin:5px 0 5px 15px;
+    display: flex;
+    flex-direction: column;
+    background-color: #EFEFEF;
+    width:93%
+}

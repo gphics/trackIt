@@ -49,11 +49,11 @@ const userSchema = mongoose.Schema(
       to_be_collected: { type: Number, default: 0 },
     },
     totalDebtAmount: {
-      repayment: {
+      to_be_paid: {
         type: Number,
         default: 0,
       },
-      non_repayment: {
+      to_be_collected: {
         type: Number,
         default: 0,
       },

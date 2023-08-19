@@ -6,12 +6,12 @@ const bcrypt = require("bcryptjs");
 module.exports = async (req, res, next) => {
   const { email } = req.body;
   if (!email) {
-    return next(activateError(404, "email not provided"));
+    return next(activateError("email not provided"));
   }
   try {
     const user = await UserModel.findOne({ email });
     if (!user) {
-      return next(activateError(404, "user does not exist"));
+      return next(activateError("user does not exist"));
     }
     const salt = await bcrypt.genSalt(10);
     const newPassword = randomNumberGen();
@@ -28,6 +28,6 @@ module.exports = async (req, res, next) => {
       data: "Your new password has been sent to the provided email, if email not delivered click on the reset button again",
     });
   } catch (error) {
-    next(activateError(500, error.message));
+    next(activateError(error.message));
   }
 };

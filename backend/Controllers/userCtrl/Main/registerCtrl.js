@@ -6,11 +6,11 @@ const bcrypt = require("bcryptjs");
 module.exports = async (req, res, next) => {
   const { fullname, email, password, gender } = req.body;
   if (!fullname || !email || !gender) {
-    return next(activateError(401, "all field must be populated"));
+    return next(activateError("all field must be populated"));
   }
   if (!password || password.length < 6) {
     return next(
-      activateError(401, "password field length must be greater than 7")
+      activateError("password field length must be greater than 7")
     );
   }
 
@@ -49,6 +49,6 @@ Welcome to trackIt, ${gender === "male" ? "Mr " + fullname : "Mrs " + fullname}.
       return res.json({ data: user });
     }
   } catch (error) {
-    return next(activateError(400, error.message));
+    return next(activateError(error.message));
   }
 };

@@ -13,7 +13,7 @@ module.exports = async (req, res, next) => {
     const user = await UserModel.findById(req.session.authID);
     user.Reminders = user.Reminders.filter((elem) => elem.toString() !== id);
     await user.save();
-    res.json({ data: "reminder deleted", user });
+    res.json({ data: "reminder deleted"});
   } catch (error) {
     next(activateError(400, error.message));
   }
