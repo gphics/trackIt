@@ -34,7 +34,9 @@ function LinkDisplay({ navArr, elemName, menuAction }: arr) {
   return (
     <section className={`${elemName}`}>
       {navArr.map((item: { url: string; name: string }, index: number) => {
-        return (
+        return item.name === "logout" ? (
+          <button className="logout-btn">logout</button>
+        ) : (
           <NavLink
             onClick={menuAction && menuAction}
             className={({ isActive }) =>

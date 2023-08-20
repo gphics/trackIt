@@ -1,5 +1,4 @@
 
-
 class AuthStorage {
     setItem(key: string, value: string): void {
         sessionStorage.setItem(key, value)

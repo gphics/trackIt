@@ -76,26 +76,24 @@
 }
 
 // each nav link
-.nav-link {
-    text-decoration: none;
-    text-transform: capitalize;
-    font-weight: 600;
-    color: colors.$black;
-}
-
-// each active link
-
 @mixin activeLink {
     text-decoration: underline;
+    color:colors.$black;
     text-decoration-thickness: 3px;
 }
 
 .nav-link {
+    text-decoration: none;
+    text-transform: capitalize;
+    font-weight: 600;
+    color: colors.$blue;
+
     &:hover {
         @include activeLink()
     }
-
 }
+
+// each active link
 
 .nav-active {
     @include activeLink
@@ -114,5 +112,21 @@
 
     @media (min-width:760px) {
         display: none;
+    }
+}
+
+
+// logout
+.logout-btn {
+    font-weight: 700;
+    padding: 5px 15px;
+    cursor: pointer;
+    text-transform: capitalize;
+    border-radius: 5px;
+
+    &:hover {
+        background-color: colors.$blue;
+        border: none;
+        color: colors.$off-white
     }
 }
