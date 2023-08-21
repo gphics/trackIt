@@ -12,6 +12,15 @@ dbConnect();
 // -----------
 // ----------
 // middlewares
+
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
+});
 app.use(express.static("public"));
 app.set("view engine", "ejs");
 // to allow sending of json data
@@ -32,15 +41,7 @@ app.use(
     }),
   })
 );
-// configuring Access control allow origin
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.Header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  next();
-});
+
 // -----------
 // ----------
 // routes
