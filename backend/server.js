@@ -13,7 +13,7 @@ dbConnect();
 // ----------
 // middlewares
 app.use(express.static("public"));
-app.set("view engine", "ejs")
+app.set("view engine", "ejs");
 // to allow sending of json data
 app.use(express.json());
 // to allow receiving form data
@@ -32,6 +32,15 @@ app.use(
     }),
   })
 );
+// configuring Access control allow origin
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.Header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
+});
 // -----------
 // ----------
 // routes
@@ -39,8 +48,8 @@ app.use("/user", userRouter);
 app.use("/debt", debtRouter);
 app.use("/reminder", reminderRouter);
 app.get("/docs", (req, res) => {
-  res.render("docs")
-})
+  res.render("docs");
+});
 // app.get("/", (req, /))
 // -----------
 // ----------

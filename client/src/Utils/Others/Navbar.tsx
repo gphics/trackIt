@@ -1,6 +1,5 @@
 import { NavLink } from "react-router-dom";
 import Logo from "../../asset/Logo.svg";
-import AuthStorage from "../AuthStorage";
 import { BiMenu } from "react-icons/bi";
 type arr = {
   navArr: { url: string; name: string }[];
@@ -9,8 +8,7 @@ type arr = {
   menuAction?(): void;
 };
 function Navbar({ navArr, menuAction }: arr) {
-  const isAuthenticated: boolean = AuthStorage.getItem("isAuthenticated");
-  console.log(isAuthenticated);
+
   return (
     <nav className="navbar">
       {/* contains the logo and menu icon. also the links if the user is a desktop user */}
@@ -35,7 +33,7 @@ function LinkDisplay({ navArr, elemName, menuAction }: arr) {
     <section className={`${elemName}`}>
       {navArr.map((item: { url: string; name: string }, index: number) => {
         return item.name === "logout" ? (
-          <button className="logout-btn">logout</button>
+          <button type="button" className="logout-btn">logout</button>
         ) : (
           <NavLink
             onClick={menuAction && menuAction}

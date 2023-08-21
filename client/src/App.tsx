@@ -4,6 +4,8 @@ import NotProtectedHOC from "./Utils/HOC/NotProtectedHOC";
 import HOC from "./Utils/HOC";
 import ErrorPage from "./Pages/ErrorPage";
 import LandingPage from "./Pages/LandingPage";
+import RegisterPage from "./Pages/RegisterPage";
+import LoginPage from "./Pages/LoginPage";
 // import AuthStorage from "./Utils/AuthStorage";
 const App = () => {
   // AuthStorage.setItem("isAuthenticated", "true");
@@ -13,8 +15,8 @@ const App = () => {
         {/* landing page route */}
         <Route path="/landing-page" element={<NotProtectedHOC />}>
           <Route index element={<LandingPage/>} />
-          <Route path="login" element={"login page"} />
-          <Route path="register" element={"register page"} />
+          <Route path="login" element={<LoginPage/>} />
+          <Route path="register" element={<RegisterPage/>} />
         </Route>
         {/* main route and it is going to be protected */}
         <Route path="/" element={<ProtectedHOC />}>

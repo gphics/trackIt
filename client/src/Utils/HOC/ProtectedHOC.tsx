@@ -1,10 +1,10 @@
 import { useNavigate, Outlet } from "react-router-dom";
 import { useEffect } from "react";
-import AuthStorage from "../AuthStorage";
 import Navbar from "../Others/Navbar";
 import menuAction from "../BtnActions/NavActions";
+import { useSelector } from "react-redux";
 export default function ProtectedHOC() {
-  const isAuthenticated: boolean = AuthStorage.getItem("isAuthenticated");
+  const { isAuthenticated } = useSelector((state: any) => state.userSlice);
   const Navigate = useNavigate();
   type arr = { url: string; name: string };
   const navArr: arr[] = [

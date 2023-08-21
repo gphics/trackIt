@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const instance = axios.create({
+const Axios = axios.create({
     baseURL: "https://trackit-api.onrender.com"
 })
 
-export default instance
+export default Axios
