@@ -1,0 +1,53 @@
+@use "./colors.scss" as colors;
+
+.loading-component {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    background-color: rgba(141, 138, 138, 0.582);
+    z-index: 99999;
+
+
+    .container {
+        width: 70px;
+        height: 70px;
+        border-radius: 100%;
+        border: 7px solid colors.$black;
+        // background-color: red;
+        position: relative;
+
+        .loader {
+            position: absolute;
+            top: -7px;
+            left: -7px;
+            width: 70px;
+            height: 70px;
+            border-radius: 100%;
+            border: 7px solid transparent;
+            border-right-color: colors.$blue;
+            animation: loader .8s linear none infinite;
+
+            @keyframes loader {
+                25% {
+                    border-right-color: rgb(207, 211, 230);
+                }
+
+                50% {
+                    border-right-color: rgb(102, 118, 190);
+                }
+
+                75% {
+                    border-right-color: rgb(7, 25, 105);
+                }
+
+                100% {
+                    transform: rotate(360deg);
+                }
+            }
+        }
+    }
+}

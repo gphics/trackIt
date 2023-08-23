@@ -6,17 +6,31 @@ import ErrorPage from "./Pages/ErrorPage";
 import LandingPage from "./Pages/LandingPage";
 import RegisterPage from "./Pages/RegisterPage";
 import LoginPage from "./Pages/LoginPage";
+import "react-toastify/dist/ReactToastify.css";
+import { useSelector } from "react-redux";
+import { ToastContainer } from "react-toastify";
+import Loading from "./Utils/Others/Loading";
 // import AuthStorage from "./Utils/AuthStorage";
 const App = () => {
+  const { isLoading } = useSelector((state: any) => state.userSlice);
   // AuthStorage.setItem("isAuthenticated", "true");
   return (
     <BrowserRouter>
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        closeOnClick={true}
+        pauseOnHover={true}
+        theme="dark"
+      />
+      {isLoading && <Loading />}
       <Routes>
         {/* landing page route */}
+
         <Route path="/landing-page" element={<NotProtectedHOC />}>
-          <Route index element={<LandingPage/>} />
-          <Route path="login" element={<LoginPage/>} />
-          <Route path="register" element={<RegisterPage/>} />
+          <Route index element={<LandingPage />} />
+          <Route path="login" element={<LoginPage />} />
+          <Route path="register" element={<RegisterPage />} />
         </Route>
         {/* main route and it is going to be protected */}
         <Route path="/" element={<ProtectedHOC />}>
@@ -42,7 +56,7 @@ const App = () => {
           </Route>
         </Route>
         {/* Error route */}
-        <Route path="*" element={<ErrorPage/>} />
+        <Route path="*" element={<ErrorPage />} />
       </Routes>
     </BrowserRouter>
   );

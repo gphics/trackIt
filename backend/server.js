@@ -7,13 +7,13 @@ const userRouter = require("./Routes/userRoutes");
 const debtRouter = require("./Routes/debtRoute");
 const app = express();
 const reminderRouter = require("./Routes/reminder");
-const cors = require("cors")
+const cors = require("cors");
 dbConnect();
 
 // -----------
 // ----------
 // middlewares
-app.use(cors())
+app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 
 app.use(express.static("public"));
 app.set("view engine", "ejs");
@@ -25,7 +25,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
-    saveUninitialized: false,
+    saveUninitialized: true,
     resave: true,
     rolling: true,
     cookie: { maxAge: 24 * 60 * 60 * 1000 },

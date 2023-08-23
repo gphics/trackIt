@@ -3,8 +3,12 @@ import { useEffect } from "react";
 import Navbar from "../Others/Navbar";
 import menuAction from "../BtnActions/NavActions";
 import { useSelector } from "react-redux";
+import { ToastContainer } from "react-toastify";
+import Loading from "../Others/Loading";
 export default function NotProtectedHOC() {
-  const { isAuthenticated } = useSelector((state: any) => state.userSlice);
+  const { isAuthenticated, isLoading } = useSelector(
+    (state: any) => state.userSlice
+  );
   type arr = { url: string; name: string };
   const navArr: arr[] = [
     { name: "home", url: "/landing-page" },
@@ -18,7 +22,15 @@ export default function NotProtectedHOC() {
 
   return (
     <>
+      {isLoading && <Loading />}
       <Navbar navArr={navArr} menuAction={menuAction} />
+      {/* <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        closeOnClick={true}
+        pauseOnHover={true}
+        theme="dark"
+      /> */}
       <Outlet />
     </>
   );

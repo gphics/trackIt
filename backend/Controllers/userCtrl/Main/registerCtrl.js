@@ -9,9 +9,7 @@ module.exports = async (req, res, next) => {
     return next(activateError("all field must be populated"));
   }
   if (!password || password.length < 6) {
-    return next(
-      activateError("password field length must be greater than 7")
-    );
+    return next(activateError("password field length must be greater than 6"));
   }
 
   try {
@@ -24,8 +22,11 @@ module.exports = async (req, res, next) => {
       isActive: true,
       gender,
     });
-
+    console.log("I am the registered user")
     if (user) {
+      console.log("I am saving the session");
+      req.session.authID = user._id;
+      console.log(req.session.authID);
       // writeup to be sent to mail if user created successfully
       const html = `
 <html>
@@ -45,7 +46,7 @@ Welcome to trackIt, ${gender === "male" ? "Mr " + fullname : "Mrs " + fullname}.
 `;
 
       sendMail(email, "Account creation", html);
-      req.session.authID = user._id;
+
       return res.json({ data: user });
     }
   } catch (error) {

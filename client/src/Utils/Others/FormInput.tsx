@@ -6,7 +6,9 @@ type inputType = {
   onChange: (name: string, value: string) => void;
   label: string;
   stateNames: { slice: string; name: string };
+  inputClass: string;
   Icon?: any;
+  iconClass?: string;
 };
 const FormInput = ({
   type,
@@ -15,13 +17,15 @@ const FormInput = ({
   label,
   stateNames,
   Icon,
+  inputClass,
+  iconClass,
 }: inputType) => {
   const value = useSelector(
     (state: any) => state[stateNames.slice][stateNames.name][name]
   );
   if (type === "select") {
     return (
-      <div className="form-input">
+      <div className={inputClass}>
         <select
           onChange={(e) => {
             onChange(name, e.target.value);
@@ -30,17 +34,15 @@ const FormInput = ({
           title="gender"
           value={value}
         >
-          <option value="male" selected>
-            male
-          </option>
+          <option value="male">male</option>
           <option value="female">female</option>
         </select>
-        {Icon && <Icon className="form-input-icon"/>}
+        {Icon && <Icon className={iconClass} />}
       </div>
     );
   }
   return (
-    <div className="form-input">
+    <div className={inputClass}>
       <input
         autoComplete="true"
         placeholder={`your ${label} ...`}
@@ -52,7 +54,7 @@ const FormInput = ({
         value={value}
         title={label}
       />
-      {Icon && <Icon className="form-input-icon" />}
+      {Icon && <Icon className={iconClass} />}
     </div>
   );
 };

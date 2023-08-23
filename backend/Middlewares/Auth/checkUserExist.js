@@ -13,6 +13,6 @@ module.exports = async (req, res, next) => {
     }
     next();
   } catch (error) {
-    return next(activateError(400, error.message));
+    return next(activateError(error.message));
   }
 };

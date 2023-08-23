@@ -1,0 +1,77 @@
+@use "../utils/colors.scss" as colors;
+
+.register-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 90px);
+
+    h3 {
+        text-transform: capitalize;
+        margin: 0 0 15px 0;
+    }
+}
+
+.register-form {
+    height: 60%;
+    width: 80vw;
+    max-width: 450px;
+    background-color: colors.$off-white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    border-radius: 5px;
+    box-shadow: 1px 1px 5px 1px;
+    align-items: center;
+    @media (max-width:760px) {
+        height: 80%;
+        width:85%
+    }
+}
+
+.reg-input-holder {
+    margin: 5px;
+    height: 15%;
+    background-color: colors.$blue;
+    display: flex;
+    justify-content: space-between;
+    border-radius: 5px;
+    width:95%;
+    align-items: center;
+    overflow: hidden;
+    input, select {
+       
+        border: none;
+        width:90%;
+        height: 100%;
+        padding-left: 10px;
+        color:colors.$off-white;
+        background-color: colors.$black;
+        &:focus{
+background-color: colors.$blue;
+border: none;
+        }
+        // margin-left: 2px;
+    }
+    .reg-input-icon{
+        transform: scale(1.5);
+        margin-right: 3.2%;
+        color: colors.$off-white;
+    }
+}
+
+.reg-btn{
+    text-transform: capitalize;
+    width:40%;
+    height: 8%;
+    font-weight: 700;
+    border: none;
+    background-color: colors.$black;
+    border-radius: 5px;
+    color:colors.$off-white;
+    cursor: pointer;
+    &:hover{
+        background-color: colors.$blue;
+    }
+}

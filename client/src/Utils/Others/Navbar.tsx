@@ -1,6 +1,10 @@
 import { NavLink } from "react-router-dom";
 import Logo from "../../asset/Logo.svg";
 import { BiMenu } from "react-icons/bi";
+import { userSliceActions } from "../../Model/userSlice";
+import { useDispatch } from "react-redux";
+import fetchData from "../Axios/fetchData";
+import { toast } from "react-toastify";
 type arr = {
   navArr: { url: string; name: string }[];
   elemName?: string;
@@ -8,7 +12,6 @@ type arr = {
   menuAction?(): void;
 };
 function Navbar({ navArr, menuAction }: arr) {
-
   return (
     <nav className="navbar">
       {/* contains the logo and menu icon. also the links if the user is a desktop user */}
@@ -29,11 +32,25 @@ function Navbar({ navArr, menuAction }: arr) {
 }
 
 function LinkDisplay({ navArr, elemName, menuAction }: arr) {
+  const dispatch = useDispatch();
+  const { logout } = userSliceActions;
+  async function logMeOut() {
+    const data = await fetchData("user/logout");
+    toast.success(data.data);
+    dispatch(logout());
+  }
   return (
     <section className={`${elemName}`}>
       {navArr.map((item: { url: string; name: string }, index: number) => {
         return item.name === "logout" ? (
-          <button type="button" className="logout-btn">logout</button>
+          <button
+            key={index}
+            type="button"
+            onClick={logMeOut}
+            className="logout-btn"
+          >
+            logout
+          </button>
         ) : (
           <NavLink
             onClick={menuAction && menuAction}
