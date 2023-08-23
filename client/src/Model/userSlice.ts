@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
 import AuthStorage from "../Utils/AuthStorage"
-import { ObjectExpression } from "mongoose"
 
 interface stateType {
     isAuthenticated: boolean,

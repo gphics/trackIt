@@ -1219,4 +1219,4 @@ self.addEventListener("push", (a) => {
   const { title: e, body: t } = a.data;
   self.registration.sendNotification(e, { body: t });
 });
-se([{"revision":null,"url":"assets/index-15dd198d.css"},{"revision":null,"url":"assets/index-53d51ddc.js"},{"revision":"3442fa1a358add5580f6120a0fdcf9af","url":"index.html"},{"revision":"1872c500de691dce40960bb85481de07","url":"registerSW.js"},{"revision":"7fdb844117dec2994fea1a51b80938f5","url":"manifest.webmanifest"}]);
+se([{"revision":null,"url":"assets/index-0a4ecc33.css"},{"revision":null,"url":"assets/index-4c047b1f.js"},{"revision":"f5b93e97c01ad2dd7fff42bb206ac539","url":"index.html"},{"revision":"1872c500de691dce40960bb85481de07","url":"registerSW.js"},{"revision":"7fdb844117dec2994fea1a51b80938f5","url":"manifest.webmanifest"}]);

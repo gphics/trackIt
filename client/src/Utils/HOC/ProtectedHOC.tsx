@@ -3,8 +3,7 @@ import { useEffect } from "react";
 import Navbar from "../Others/Navbar";
 import menuAction from "../BtnActions/NavActions";
 import { useSelector } from "react-redux";
-import { ToastContainer } from "react-toastify";
-import Loading from "../Others/Loading";
+
 export default function ProtectedHOC() {
   const { isAuthenticated } = useSelector(
     (state: any) => state.userSlice
