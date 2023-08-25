@@ -24,7 +24,7 @@
     border-radius: 5px;
     box-shadow: 1px 1px 5px 1px;
     align-items: center;
-    @media (max-width:760px) {
+    @media (width <=760px) {
         height: 80%;
         width:85%
     }

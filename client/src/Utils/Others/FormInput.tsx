@@ -44,7 +44,6 @@ const FormInput = ({
   return (
     <div className={inputClass}>
       <input
-        autoComplete="true"
         placeholder={`your ${label} ...`}
         type={type}
         onChange={(e) => {

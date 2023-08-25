@@ -1,6 +1,7 @@
 require("dotenv").config();
 const nodeMailer = require("nodemailer");
-
+const emailVerfier = require("../Middlewares/Auth/emailVerfier");
+emailVerfier()
 const mailTransporter = nodeMailer.createTransport({
   host: "smtp.gmail.com",
   port: 465,

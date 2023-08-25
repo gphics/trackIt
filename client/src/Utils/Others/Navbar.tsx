@@ -33,11 +33,20 @@ function Navbar({ navArr, menuAction }: arr) {
 
 function LinkDisplay({ navArr, elemName, menuAction }: arr) {
   const dispatch = useDispatch();
-  const { logout } = userSliceActions;
+  const { logout, updateIsLoading } = userSliceActions;
   async function logMeOut() {
+    dispatch(updateIsLoading(true))
     const data = await fetchData("user/logout");
-    toast.success(data.data);
-    dispatch(logout());
+    console.log(data);
+    if (data) {
+       dispatch(updateIsLoading(false));
+      if (data.status) {
+        toast.error(data.message);
+        return;
+      }
+      toast.success(data.data);
+      dispatch(logout());
+    }
   }
   return (
     <section className={`${elemName}`}>

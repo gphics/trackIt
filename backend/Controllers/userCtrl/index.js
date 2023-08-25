@@ -19,7 +19,7 @@ module.exports = [
   {
     url: "/register",
     method: "post",
-    action: registerCtrl,
+    action: registerCtrl, 
     mid: [checkIsNotLogin, checkUserExist],
   },
   {
@@ -42,7 +42,7 @@ module.exports = [
     action: dualFactorAuthCtrl,
     mid: [checkIsNotLogin],
   },
-  { url: "/login", method: "post", action: loginCtrl },
+  { url: "/login", method: "post", action: loginCtrl, mid:[checkIsNotLogin] },
   { url: "/logout", method: "get", action: logoutCtrl, mid: [checkIsLogin] },
   {
     url: "/update",

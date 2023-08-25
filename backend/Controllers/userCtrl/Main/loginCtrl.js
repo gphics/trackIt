@@ -7,8 +7,6 @@ const nodeCron = require("node-cron");
 const { DFAString } = require("../../../Utils/cronStringGenerators");
 
 module.exports = async (req, res, next) => {
-  // making sure user is not logged in before
-  if (req.session.authID) return next(activateError("authenticated already"));
   const { password, email } = req.body;
   // checking the authenticity of the provided info
   if (!password || password.length < 6 || !email)

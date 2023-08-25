@@ -1,7 +1,6 @@
 const activateError = require("../../../Utils/activateError");
 
 module.exports = async (req, res, next) => {
-  console.log(req.session.authID)
   try {
     req.session.destroy((err) => {
       if (err) return next(activateError(err.message));

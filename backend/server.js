@@ -14,7 +14,7 @@ dbConnect();
 // ----------
 // middlewares
 app.use(cors({ origin: "http://localhost:5173", credentials: true }));
-
+// https://trackit-gb3z.onrender.com
 app.use(express.static("public"));
 app.set("view engine", "ejs");
 // to allow sending of json data
@@ -25,7 +25,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
-    saveUninitialized: true,
+    saveUninitialized: false,
     resave: true,
     rolling: true,
     cookie: { maxAge: 24 * 60 * 60 * 1000 },

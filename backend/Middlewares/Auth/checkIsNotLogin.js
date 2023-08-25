@@ -1,7 +1,9 @@
 const activateError = require("../../Utils/activateError");
 
 module.exports = (req, res, next) => {
-  if (req.session.authID)
+  console.log(req.session.authID);
+  if (req.session.authID) {
     return next(activateError("you are authenticated already"));
-  next();
+  }
+  return next();
 };

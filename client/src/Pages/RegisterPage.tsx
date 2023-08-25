@@ -19,9 +19,10 @@ const RegisterPage = () => {
     iconClass?: string;
   };
   const dispatch: any = useDispatch();
-  const { registerDetail } = useSelector((state: any) => state.userSlice);
+  const { registerDetails } = useSelector((state: any) => state.userSlice);
 
-  const { registerStateUpdate, updateIsLoading, fillUser } = userSliceActions;
+  const { registerStateUpdate, updateIsLoading, fillUser, clearRegisterState } =
+    userSliceActions;
   function onChange(name: string, value: string): void {
     const payload = { name, value };
     dispatch(registerStateUpdate(payload));
@@ -33,7 +34,7 @@ const RegisterPage = () => {
       type: "email",
       label: "email",
       onChange,
-      stateNames: { slice: "userSlice", name: "registerDetail" },
+      stateNames: { slice: "userSlice", name: "registerDetails" },
       Icon: MdEmail,
       inputClass: "reg-input-holder",
       iconClass: "reg-input-icon",
@@ -43,7 +44,7 @@ const RegisterPage = () => {
       type: "text",
       label: "fullname",
       onChange,
-      stateNames: { slice: "userSlice", name: "registerDetail" },
+      stateNames: { slice: "userSlice", name: "registerDetails" },
       Icon: BsFillPersonFill,
       inputClass: "reg-input-holder",
       iconClass: "reg-input-icon",
@@ -53,7 +54,7 @@ const RegisterPage = () => {
       type: "select",
       label: "gender",
       onChange,
-      stateNames: { slice: "userSlice", name: "registerDetail" },
+      stateNames: { slice: "userSlice", name: "registerDetails" },
       Icon: PiGenderIntersexBold,
       inputClass: "reg-input-holder",
       iconClass: "reg-input-icon",
@@ -63,7 +64,7 @@ const RegisterPage = () => {
       type: "password",
       label: "password",
       onChange,
-      stateNames: { slice: "userSlice", name: "registerDetail" },
+      stateNames: { slice: "userSlice", name: "registerDetails" },
       Icon: BsPersonFillLock,
       inputClass: "reg-input-holder",
       iconClass: "reg-input-icon",
@@ -71,7 +72,7 @@ const RegisterPage = () => {
   ];
   async function submitHandler(e: any) {
     e.preventDefault();
-    const { fullname, email, password } = registerDetail;
+    const { fullname, email, password } = registerDetails;
     // checking if the field are filled
     if (!fullname || !email || !password) {
       toast("All field must be filled");
@@ -84,7 +85,7 @@ const RegisterPage = () => {
     }
     // fetching the data
     dispatch(updateIsLoading(true));
-    const data = await fetchData("user/register", registerDetail, "post");
+    const data = await fetchData("user/register", registerDetails, "POST");
 
     if (data) {
       dispatch(updateIsLoading(false));
@@ -92,15 +93,22 @@ const RegisterPage = () => {
         toast.error(data.message);
         return;
       }
-      dispatch(fillUser(data.data));
-      toast.success("user created successfully");
-      return;
+      if (data.data) {
+        dispatch(fillUser(data.data));
+        dispatch(clearRegisterState());
+        toast.success("user created successfuly");
+        return;
+      }
     }
 
     // const
     // const body: string = JSON.stringify(registerDetail);
   }
-
+  async function userd() {
+    const user = await fetchData("user");
+    console.log(user);
+  }
+  // userd()
   return (
     <div className="register-page">
       <h3>create your account</h3>
