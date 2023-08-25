@@ -104,11 +104,7 @@ const RegisterPage = () => {
     // const
     // const body: string = JSON.stringify(registerDetail);
   }
-  async function userd() {
-    const user = await fetchData("user");
-    console.log(user);
-  }
-  // userd()
+ 
   return (
     <div className="register-page">
       <h3>create your account</h3>
