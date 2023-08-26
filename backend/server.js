@@ -22,14 +22,15 @@ app.use(express.json());
 // to allow receiving form data
 app.use(express.urlencoded({ extended: true }));
 
-app.enable("trust proxy")
+app.enable("trust proxy");
+
 // configuring express session
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
-    saveUninitialized: false,
+    saveUninitialized: true,
     resave: true,
-    cookie: { maxAge: 24 * 60 * 60 * 1000, secure:false },
+    cookie: { maxAge: 24 * 60 * 60 * 1000, secure: falsess },
     store: MongoStore.create({
       mongoUrl: process.env.DB_URL,
       ttl: 24 * 60 * 60,
