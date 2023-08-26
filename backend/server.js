@@ -29,7 +29,7 @@ app.use(
     secret: process.env.SESSION_SECRET,
     saveUninitialized: false,
     resave: true,
-    cookie: { maxAge: 24 * 60 * 60 * 1000 },
+    cookie: { maxAge: 24 * 60 * 60 * 1000, secure:false },
     store: MongoStore.create({
       mongoUrl: process.env.DB_URL,
       ttl: 24 * 60 * 60,
