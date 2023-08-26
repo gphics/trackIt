@@ -22,19 +22,6 @@ app.use(express.json());
 // to allow receiving form data
 app.use(express.urlencoded({ extended: true }));
 
-
-// -----------
-// ----------
-// routes
-app.use("/user", userRouter);
-app.use("/debt", debtRouter);
-app.use("/reminder", reminderRouter);
-app.get("/docs", (req, res) => {
-  res.render("docs");
-});
-// app.get("/", (req, /))
-// -----------
-// ----------
 // configuring express session
 app.use(
   session({
@@ -49,6 +36,19 @@ app.use(
     }),
   })
 );
+// -----------
+// ----------
+// routes
+app.use("/user", userRouter);
+app.use("/debt", debtRouter);
+app.use("/reminder", reminderRouter);
+app.get("/docs", (req, res) => {
+  res.render("docs");
+});
+// app.get("/", (req, /))
+// -----------
+// ----------
+
 // error handling
 app.use((err, req, res, next) => {
   const { statusCode, message } = err;
