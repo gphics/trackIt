@@ -1,8 +1,8 @@
 
 export default async function fetchData(url: string, body?: any, method = "GET") {
     try {
-        // const baseURL = "https://trackit-api.onrender.com/"
-        const baseURL = "http://localhost:9000/"
+        const baseURL = "https://trackit-api.onrender.com/"
+        // const baseURL = "http://localhost:9000/"
         // @ts-ignore
 
         let first: any = {}
