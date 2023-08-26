@@ -104,7 +104,7 @@ const RegisterPage = () => {
     // const
     // const body: string = JSON.stringify(registerDetail);
   }
- 
+
   return (
     <div className="register-page">
       <h3>create your account</h3>
