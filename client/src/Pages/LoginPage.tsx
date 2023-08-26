@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import fetchData from "../Utils/Axios/fetchData";
 const LoginPage = () => {
   const dispatch = useDispatch();
-  const { loginStateUpdate, fillUser, updateIsLoading, clearLoginState } =
+  const {logout, loginStateUpdate, fillUser, updateIsLoading, clearLoginState } =
     userSliceActions;
   const { loginDetails } = useSelector((state: any) => state.userSlice);
   type inputType = {
@@ -61,8 +61,9 @@ const LoginPage = () => {
     const data: any = await fetchData("user/login", loginDetails, "POST");
     if (data) {
       dispatch(updateIsLoading(false));
-      if (data.status) {
-        toast.error(data.message);
+      if (typeof data === 'string') {
+        dispatch(logout())
+        toast.error(data);
         return;
       }
       if (data.data) {

@@ -67,7 +67,8 @@ const userSlice = createSlice({
             state.user = {}
             state.isAuthenticated = false
             AuthStorage.removeItem("isAuthenticated")
-        }
+        },
+        
     }
 })
 

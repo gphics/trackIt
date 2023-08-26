@@ -1,4 +1,3 @@
-
 export default async function fetchData(url: string, body?: any, method = "GET") {
     try {
         const baseURL = "https://trackit-api.onrender.com/"
@@ -20,19 +19,15 @@ export default async function fetchData(url: string, body?: any, method = "GET")
                 headers: { "Content-Type": "application/json" }
             })
         }
-        console.log("I am the first");
         const second = await first.json()
-        console.log("I am the seccond", second);
+        if (second.status) {
+            throw new Error(second.message)
+        }
         return second
 
-    } catch (error) {
+    } catch (error: any) {
         return error
     }
 
 }
 
-async function prof() {
-    const data = await fetchData("user")
-    console.log(data)
-}
-prof()

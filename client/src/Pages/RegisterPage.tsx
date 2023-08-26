@@ -89,8 +89,8 @@ const RegisterPage = () => {
 
     if (data) {
       dispatch(updateIsLoading(false));
-      if (data.status) {
-        toast.error(data.message);
+      if (typeof data === "string") {
+        toast.error(data);
         return;
       }
       if (data.data) {
