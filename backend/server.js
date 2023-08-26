@@ -22,6 +22,7 @@ app.use(express.json());
 // to allow receiving form data
 app.use(express.urlencoded({ extended: true }));
 
+app.enable("trust proxy")
 // configuring express session
 app.use(
   session({
