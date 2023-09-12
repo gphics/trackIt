@@ -15,7 +15,7 @@ dbConnect();
 // middlewares
 app.use(
   cors({
-    origin: ["https://trackit-gb3z.onrender.com", "http://localhost:5173"],
+    origin: "https://trackit-gb3z.onrender.com",
     credentials: true,
   })
 );
@@ -29,8 +29,6 @@ app.use(
     rolling: true,
     cookie: {
       maxAge: 24 * 60 * 60 * 1000,
-      secure: true,
-      sameSite: "none",
     },
 
     store: MongoStore.create({
