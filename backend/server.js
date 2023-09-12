@@ -19,6 +19,7 @@ app.use(
     credentials: true,
   })
 );
+app.enable("trust proxy");
 // configuring express session
 app.use(
   session({
@@ -29,6 +30,9 @@ app.use(
     rolling: true,
     cookie: {
       maxAge: 24 * 60 * 60 * 1000,
+      secure: true,
+      httpOnly: true,
+      sameSite:"none"
     },
 
     store: MongoStore.create({
