@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-// import Logo from "../../asset/Logo.svg";
+import Logo from "../../asset/Logo.svg";
 import { BiMenu } from "react-icons/bi";
 import { userSliceActions } from "../../Model/userSlice";
 import { useDispatch } from "react-redux";
@@ -17,7 +17,7 @@ function Navbar({ navArr, menuAction }: arr) {
     <nav className="navbar">
       {/* contains the logo and menu icon. also the links if the user is a desktop user */}
       <section className="nav-header">
-        {/* <img alt="trackIt logo" className="nav-logo" src={Logo} /> */}
+        <img alt="trackIt logo" className="nav-logo" src={Logo} />
         <LinkDisplay navArr={navArr} elemName="nav-list nav-desktop" />
         <BiMenu className="menu-icon" onClick={menuAction} />
       </section>

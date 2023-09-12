@@ -29,7 +29,8 @@ app.use(
     rolling: true,
     cookie: {
       maxAge: 24 * 60 * 60 * 1000,
-      
+      secure: true,
+      sameSite: "none",
     },
 
     store: MongoStore.create({
@@ -64,7 +65,7 @@ app.use((err, req, res, next) => {
   const { statusCode, message } = err;
   console.log(statusCode, message);
 
-  const code = statusCode ? statusCode : 400
+  const code = statusCode ? statusCode : 400;
   res.status(code).json({ status: "failed", code, message });
 });
 // listening to the server
