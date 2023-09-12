@@ -1,22 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit"
 import AuthStorage from "../Utils/AuthStorage"
-
-interface stateType {
-    isAuthenticated: boolean,
-    isLoading: boolean,
-    registerDetails: {
-        fullname: string,
-        email: string,
-        password: string,
-        gender: string
-    },
-    loginDetails: {
-        email: string,
-        password: string
-    }
-    user: object
-}
-const initialState: stateType = {
+import userSliceAnn from "../Utils/TypeAnnotations/userSliceAnn"
+const initialState: userSliceAnn = {
     isAuthenticated: AuthStorage.getItem("isAuthenticated"),
     isLoading: false,
     registerDetails: {
@@ -25,8 +10,11 @@ const initialState: stateType = {
         password: "",
         gender: "male"
     },
-    loginDetails:{email:"", password:""},
-    user: {}
+    loginDetails: { email: "", password: "" },
+    user: {},
+    basicUserUpdate: { fullname: "", gender: "", contact: +"", location: "", },
+    passwordUpdate: { newPassword: "", oldPassword: "" },
+    emailUpdate: { email: "" },
 }
 
 const userSlice = createSlice({
@@ -40,7 +28,7 @@ const userSlice = createSlice({
             state.registerDetails[name] = value
         },
         clearRegisterState: (state: any) => {
-            state.registerDetail = {
+            state.registerDetails = {
                 fullname: "",
                 email: "",
                 password: "",
@@ -51,7 +39,7 @@ const userSlice = createSlice({
             state.isLoading = action.payload
         },
         loginStateUpdate: (state, action) => {
-            const { name, value }:{name:string, value:string} = action.payload
+            const { name, value }: { name: string, value: string } = action.payload
             // @ts-ignore
             state.loginDetails[name] = value
         },
@@ -63,12 +51,49 @@ const userSlice = createSlice({
             state.isAuthenticated = true
             AuthStorage.setItem("isAuthenticated", "true")
         },
-        logout: (state) => {
-            state.user = {}
-            state.isAuthenticated = false
+        logout: (state: any) => {
             AuthStorage.removeItem("isAuthenticated")
+            return {
+                ...state, isAuthenticated: false,
+                isLoading: false,
+                registerDetails: {
+                    fullname: "",
+                    email: "",
+                    password: "",
+                    gender: "male"
+                },
+                loginDetails: { email: "", password: "" },
+                user: {},
+                basicUserUpdate: { fullname: "", gender: "", contact: +"", location: "", },
+                passwordUpdate: { newPassword: "", oldPassword: "" },
+                emailUpdate: { email: "" }
+            }
         },
-        
+        basicUserUpdate: (state, action) => {
+            const { name, value } = action.payload
+            // @ts-ignore
+            state.basicUserUpdate[name] = value
+        },
+        emailUserUpdate: (state, action) => {
+            const { value } = action.payload
+            state.emailUpdate.email = value
+        },
+        passwordUserUpdate: (state, action) => {
+            const { name, value } = action.payload
+            // @ts-ignore
+            state.passwordUpdate[name] = value
+        }
+        , clearAllUserUpdate: (state) => {
+            state.basicUserUpdate = { fullname: "", gender: "", contact: "", location: "", }
+            state.passwordUpdate = { newPassword: "", oldPassword: "" }
+            state.emailUpdate = { email: "" }
+        },
+        preparingForUserUpdate: (state: any, action: any) => {
+            const { gender, contact, fullname, location } = action.payload
+            state.user = action.payload
+            state.basicUserUpdate = { gender, contact, fullname, location }
+        },
+
     }
 })
 

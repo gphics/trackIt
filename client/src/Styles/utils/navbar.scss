@@ -60,11 +60,11 @@
     position: absolute;
     top: 70px;
     flex-direction: column;
-    height: 30vh;
+    height: 40vh;
+    box-shadow: 1px 1px 5px ;
     margin: 0 auto;
     justify-content: space-around;
     z-index: 10;
-
     @media (width > 760px) {
         display: none;
     }

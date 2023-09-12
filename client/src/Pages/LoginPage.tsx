@@ -4,23 +4,15 @@ import { userSliceActions } from "../Model/userSlice";
 import { MdEmail } from "react-icons/md";
 import { BsPersonFillLock } from "react-icons/bs";
 import { toast } from "react-toastify";
-import fetchData from "../Utils/Axios/fetchData";
+import fetchData from "../Utils/DataFetch/fetchData";
+import formInputAnn from "../Utils/TypeAnnotations/formInputAnn";
 const LoginPage = () => {
   const dispatch = useDispatch();
-  const {logout, loginStateUpdate, fillUser, updateIsLoading, clearLoginState } =
+  const { loginStateUpdate, fillUser, updateIsLoading, clearLoginState } =
     userSliceActions;
   const { loginDetails } = useSelector((state: any) => state.userSlice);
-  type inputType = {
-    name: string;
-    type: string;
-    onChange: (name: string, value: string) => void;
-    label: string;
-    stateNames: { slice: string; name: string };
-    inputClass: string;
-    Icon?: any;
-    iconClass?: string;
-  };
-  const arr: inputType[] = [
+
+  const arr: formInputAnn[] = [
     {
       name: "email",
       type: "email",
@@ -49,29 +41,41 @@ const LoginPage = () => {
     e.preventDefault();
     const { email, password } = loginDetails;
     if (!email || !password) {
-      toast.error("fill all field");
+      toast.warning("fill all fields");
       return;
     }
-    if (password.lenth < 6) {
-      toast.error("password length must be greater than 5");
-      return;
-    }
-    // fetching the data
     dispatch(updateIsLoading(true));
-    const data: any = await fetchData("user/login", loginDetails, "POST");
+    const data = await fetchData("user/login", "POST", loginDetails);
     if (data) {
       dispatch(updateIsLoading(false));
-      if (typeof data === 'string') {
-        dispatch(logout())
+
+      if (typeof data === "string") {
+        toast.error(data);
+        console.log(data);
+        return;
+      }
+      dispatch(fillUser(data.data));
+      dispatch(clearLoginState());
+      toast.success("login successful");
+    }
+  }
+  async function passwordReset() {
+    const { email } = loginDetails;
+
+    if (!email) {
+      toast.warning("fill the email field with your email");
+      return;
+    }
+    dispatch(updateIsLoading(true));
+    const data = await fetchData("user/reset-password", "POST", { email });
+
+    if (data) {
+      dispatch(updateIsLoading(false));
+      if (typeof data === "string") {
         toast.error(data);
         return;
       }
-      if (data.data) {
-        dispatch(fillUser(data.data));
-        dispatch(clearLoginState());
-        toast.success("login successful");
-        return;
-      }
+      toast.success(data.data);
     }
   }
   return (
@@ -81,10 +85,17 @@ const LoginPage = () => {
         {arr.map((item, index) => {
           return <FormInput {...item} key={index} />;
         })}
+
         <button className="login-btn" onClick={submitHandler} type="submit">
           login
         </button>
       </form>
+      <div className="password-reset-note">
+        <small>Forgotten password ? </small>
+        <button onClick={passwordReset} type="button">
+          reset
+        </button>
+      </div>
     </div>
   );
 };

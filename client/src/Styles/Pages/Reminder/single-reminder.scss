@@ -1,0 +1,53 @@
+@use "../../utils/colors.scss" as colors;
+
+.single-reminder-page{
+    width:96vw;
+    margin:5px auto;
+
+    display: flex;
+    flex-direction: column;
+
+   
+}
+
+ .reminder-info {
+     display: flex;
+     flex-direction: column;
+
+     .each-info {
+         margin: 5px 0;
+
+         h5 {
+             text-transform: capitalize;
+             margin: 2px 0;
+         }
+
+         p {
+             text-indent: 5px;
+         }
+     }
+ }
+
+ .single-reminder-control{
+    margin : 5px 0;
+        display: flex;
+    .btn{
+        background-color: colors.$blue;
+        text-decoration: none;
+        text-transform: capitalize;
+        font-size: .8em;
+        
+        border-radius: 5px;
+        border: 0;
+        color:colors.$off-white;
+        text-align:center;
+        margin:5px ;
+        padding:7px 20px;
+        display: block;
+        cursor: pointer;
+
+        &:hover{
+            background-color: colors.$black;
+        }
+    }
+ }

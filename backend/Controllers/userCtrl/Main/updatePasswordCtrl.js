@@ -12,14 +12,14 @@ module.exports = async (req, res, next) => {
     newPassword.length < 6
   ) {
     return next(
-      activateError(400, "password field length must be greater than 7")
+      activateError("password field length must be greater than 7")
     );
   }
   try {
     const user = await UserModel.findById(req.session.authID);
     const compared = await bcrypt.compare(oldPassword, user.password);
     if (!compared) {
-      return next(activateError(400, "invalid credentials"));
+      return next(activateError("invalid credentials"));
     }
     // if compared === true
     const salt = await bcrypt.genSalt(10);
@@ -31,6 +31,6 @@ module.exports = async (req, res, next) => {
       res.json({ data: "password updated" });
     }
   } catch (error) {
-    next(activateError(400, error.message));
+    next(activateError(error.message));
   }
 };

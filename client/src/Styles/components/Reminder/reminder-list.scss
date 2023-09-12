@@ -1,0 +1,28 @@
+@use "../../utils/colors.scss" as colors;
+
+.reminder-list {
+    margin: 5px;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 10px;
+    align-items: center;
+    text-decoration: none;
+    height: 50px;
+    border-radius: 5px;
+
+    .title {
+        text-transform: capitalize;
+    }
+
+    background-color: colors.$off-white;
+    color:colors.$black;
+
+    &:hover {
+        transform: scale(1.007)
+    }
+}
+
+.due-reminder {
+    background-color: colors.$not-paid;
+    color: colors.$off-white;
+}

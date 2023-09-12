@@ -3,7 +3,6 @@ const activateError = require("../../../Utils/activateError");
 const UserModel = require("../../../Models/UserModel");
 const cronOperations = require("./debtCreateCron");
 
-
 module.exports = async (req, res, next) => {
   try {
     // creating the debt obj
@@ -16,17 +15,19 @@ module.exports = async (req, res, next) => {
       const user = await UserModel.findById(req.session.authID);
       // adding the debt id to the user obj
       user.Debts.unshift(debt._id);
-      // upating user debt amount
-      if (debt.category === "to_be_paid") {
-        user.totalDebtAmount.to_be_paid += debt.amount;
-      } else {
-        user.totalDebtAmount.to_be_collected += debt.amount;
-      }
-      // updating user debt count
+
       if (!debt.paid) {
-        user.totalDebtCount.notPaid += 1;
+        // upating user debt amount
+        if (debt.category === "to_be_paid") {
+          user.totalDebtAmount.to_be_paid += debt.amount;
+          user.totalDebtCount.to_be_paid += 1;
+        } else {
+          user.totalDebtCount.to_be_collected += 1;
+          user.totalDebtAmount.to_be_collected += debt.amount;
+        }
       } else {
-        user.totalDebtCount.paid += 1;
+        user.totalPaidDebt.count += 1;
+        user.totalPaidDebt.amount += debt.amount;
       }
 
       // setting cron-job if the debt is yet to be paid and debt.deadline exist

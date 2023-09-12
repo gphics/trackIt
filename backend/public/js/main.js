@@ -6,7 +6,7 @@ if (navigator.serviceWorker) {
 
 async function regSW() {
   // registering service worker
-  const regSw = await navigator.serviceWorker.register("sw.js", { scope: "/" });
+  const regSw = await navigator.serviceWorker.register("sw.js", { scope: "/" }); 
 }
 
 const subscribeBtn = document.querySelector(".subscribe");

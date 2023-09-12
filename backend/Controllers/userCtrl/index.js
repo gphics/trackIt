@@ -73,7 +73,7 @@ module.exports = [
     method: "post",
     action: uploadAvatarCtrl,
     mid: [checkIsLogin, upload.single("avatar")],
-  },
+  }, 
   {
     url: "/update-avatar",
     method: "put",

@@ -50,7 +50,7 @@ try {
 } catch {
 }
 const v = "__WB_REVISION__";
-function I(a) {
+function O(a) {
   if (!a)
     throw new l("add-to-cache-list-unexpected-type", { entry: a });
   if (typeof a == "string") {
@@ -76,7 +76,7 @@ function I(a) {
     url: n.href
   };
 }
-class O {
+class I {
   constructor() {
     this.updatedURLs = [], this.notUpdatedURLs = [], this.handlerWillStart = async ({ request: e, state: t }) => {
       t && (t.originalRequest = e);
@@ -746,7 +746,7 @@ class V {
     const t = [];
     for (const s of e) {
       typeof s == "string" ? t.push(s) : s && s.revision === void 0 && t.push(s.url);
-      const { cacheKey: n, url: r } = I(s), c = typeof s != "string" && s.revision ? "reload" : "default";
+      const { cacheKey: n, url: r } = O(s), c = typeof s != "string" && s.revision ? "reload" : "default";
       if (this._urlsToCacheKeys.has(r) && this._urlsToCacheKeys.get(r) !== n)
         throw new l("add-to-cache-list-conflicting-entries", {
           firstEntry: this._urlsToCacheKeys.get(r),
@@ -778,7 +778,7 @@ This is generally NOT safe. Learn more at https://bit.ly/wb-precache`;
    */
   install(e) {
     return k(e, async () => {
-      const t = new O();
+      const t = new I();
       this.strategy.plugins.push(t);
       for (const [r, c] of this._urlsToCacheKeys) {
         const i = this._cacheKeysToIntegrities.get(c), o = this._urlsToCacheModes.get(r), h = new Request(r, {
@@ -1212,11 +1212,8 @@ function te(a) {
 function se(a, e) {
   te(a), ee(e);
 }
-self.addEventListener("install", (a) => {
-  console.log("I am installing", a);
-});
 self.addEventListener("push", (a) => {
-  const { title: e, body: t } = a.data;
-  self.registration.sendNotification(e, { body: t });
+  const e = a.data.json(), { title: t, body: s } = e;
+  self.registration.showNotification(t, { body: s });
 });
-se([{"revision":null,"url":"assets/index-0272c940.css"},{"revision":null,"url":"assets/index-81e40dc7.js"},{"revision":"8db665e08ec6cfe49069ab3ecd1b701f","url":"index.html"},{"revision":"1872c500de691dce40960bb85481de07","url":"registerSW.js"},{"revision":"7fdb844117dec2994fea1a51b80938f5","url":"manifest.webmanifest"}]);
+se([{"revision":null,"url":"assets/index-b489ab63.js"},{"revision":null,"url":"assets/index-c59271fd.css"},{"revision":"5792d0998d8dcf450b30b08ed157139a","url":"index.html"},{"revision":"1872c500de691dce40960bb85481de07","url":"registerSW.js"},{"revision":"7fdb844117dec2994fea1a51b80938f5","url":"manifest.webmanifest"}]);

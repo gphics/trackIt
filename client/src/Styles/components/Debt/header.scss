@@ -1,0 +1,135 @@
+@use "../../utils/colors.scss" as colors;
+
+.debt-page-header {
+    width: 100%;
+    display: flex;
+    height: 50px;
+    justify-content: space-between;
+    align-items: center;
+    background-color: colors.$off-white;
+    overflow: hidden;
+    border-radius: 5px;
+
+    ;
+
+    @media (width <=500px) {
+        font-size: .8em;
+
+        .info {
+            width: 26%;
+        }
+    }
+
+    .info {
+        width: 20%;
+        margin-left: 2%;
+
+        .control {
+            text-transform: lowercase;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+
+            .view-state-toggle-icon {
+                &:hover {
+                    transform: scale(1.02);
+                    color: colors.$blue
+                }
+            }
+        }
+
+        .main-content {
+            position: absolute;
+            z-index: 9999;
+            top: 140px;
+            left: 5%;
+            font-size: .8em;
+            background-color: colors.$off-white;
+            width: 250px;
+            display: flex;
+            flex-direction: column;
+            text-transform: capitalize;
+            height: 250px;
+            justify-content: space-around;
+            border-radius: 5px;
+            align-items: center;
+            box-shadow: 1px 1px 5px;
+            section {
+                width: 95%;
+                margin: 5px;
+
+            }
+
+            h4 {
+                margin-left: 2%;
+            }
+        }
+
+        .hide {
+            display: none;
+        }
+
+        @media (width <=760px) {
+            width: 25%
+        }
+    }
+
+    .sort-form {
+        width: 30%;
+        display: flex;
+        height: 100%;
+        align-items: center;
+        justify-content: center;
+        flex: 1 1 auto;
+
+        // background-color: yellow;
+        .holder {
+            // margin-left: ;
+            height: 80%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 30%;
+
+            @media (width <=760px) {
+                width: 60%
+            }
+
+        }
+
+        label {
+            text-transform: lowercase;
+            font-weight: 700;
+            color: colors.$black
+        }
+
+        select {
+            background-color: colors.$blue;
+            color: colors.$off-white;
+            height: 70%;
+            width: 100%;
+            max-width: 130px;
+            text-transform: lowercase;
+            text-align: center;
+            border: none;
+            border-radius: 5px;
+            margin-left: 5px
+        }
+    }
+
+    .create-link {
+        text-decoration: none;
+        color: colors.$off-white;
+        text-transform: lowercase;
+        margin-right: 3%;
+        background-color: colors.$blue;
+        padding: 5px 10px;
+        border-radius: 5px;
+
+        &:hover {
+            font-weight: 700;
+            background-color: colors.$black;
+        }
+    }
+}

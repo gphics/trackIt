@@ -104,7 +104,7 @@ function setMainTask(dueDate, reminderId, repeat, repetitionInterval, authID) {
         sendMail(email, "Your reminder", html);
         // returning if the notificationSubscription array is empty
         if (notificationSubscriptions.length === 0) {
-          console.log("I am returnning the notiication array is empty");
+          
           return;
         }
         // sending push notification
@@ -121,7 +121,7 @@ function setMainTask(dueDate, reminderId, repeat, repetitionInterval, authID) {
     // main function return
     return mainTask;
   } catch (error) {
-    console.log(error);
+
   }
 }
 

@@ -1,0 +1,75 @@
+@use "../../utils/colors.scss" as colors;
+
+.single-debt-page {
+    width: 95vw;
+    margin: 5px auto;
+    display: flex;
+    flex-direction: column;
+    color:colors.$black;
+h4{
+    text-transform: capitalize;
+    color:colors.$blue;
+};
+    .debt-info {
+        display: flex;
+        margin:5px 0;
+        flex-direction: column;
+
+        .debt-info-list{
+            margin: 5px 0;
+            h5{
+                text-transform: capitalize
+            }
+            p{
+                text-indent: 5px;
+                margin: 2px 0;
+            }
+        }
+    }
+
+    ;
+
+    .actions-holder {
+        display: flex;
+        margin: 5px 0;
+
+        .action-btn {
+            width: 70px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            text-transform: capitalize;
+            color: colors.$off-white;
+            background-color: colors.$blue;
+
+            padding: 5px 0;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: 500;
+
+            &:nth-child(1) {
+                margin-right: 30px;
+                background-color: colors.$not-paid;
+            }
+            &:hover{
+                transform: scale(1.03);
+            }
+        }
+    }
+}
+
+.creditor-info, .debtor-info{
+    margin:5px 0;
+ 
+    ul{
+        margin:5px 10px;
+    }
+    li{
+       
+        list-style-position: inside;
+        list-style-type: square;
+        text-transform: capitalize;
+        font-weight: 500;
+        margin:2px 0;
+    }
+}

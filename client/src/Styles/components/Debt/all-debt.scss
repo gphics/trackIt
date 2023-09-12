@@ -1,0 +1,55 @@
+@use "../../utils/colors.scss" as colors;
+
+.all-debt-component {
+    margin: 5px 0;
+    display: flex;
+    flex-direction: column;
+    width:100%;
+
+    .singles-heading{
+        background-color: colors.$blue;
+    }
+}
+
+.small-single-debt {
+    display: flex;
+    text-decoration: none;
+    color: colors.$off-white;
+    text-transform: lowercase;
+    justify-content: space-between;
+    height: 50px;
+    margin: 5px 0;
+    align-items: center;
+    background-color: colors.$not-paid;
+    border-radius: 5px;
+    padding-left: 5px;
+
+    @media (width <=760px) {
+        font-size: .7em;
+    }
+
+    &:hover {
+        transform: scale(1.01);
+    }
+
+    h3 {
+        &:first-child {
+            width: 30%;
+    
+        }
+
+        &:last-of-type {
+            width:10%;
+        }
+
+        width: 22%;
+        text-align: left;
+        font-size: .9em;
+        margin: 0 auto;
+    }
+
+}
+
+.debt-paid {
+    background-color: colors.$paid;
+}

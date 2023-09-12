@@ -2,9 +2,9 @@ const ReminderModel = require("../../../Models/ReminderModel");
 const activateError = require("../../../Utils/activateError");
 
 module.exports = async (req, res, next) => {
-  const { authID } = req.session;
+  
   try {
-    const reminders = await ReminderModel.find({ user: authID });
+    const reminders = await ReminderModel.find({ user: req.session.authID });
     res.json({ data: reminders });
   } catch (error) {
     next(activateError(error.message));

@@ -55,8 +55,12 @@ const userSchema = mongoose.Schema(
       },
       to_be_collected: {
         type: Number,
-        default: 0,
+        default : 0,
       },
+    },
+    totalPaidDebt:{
+      amount: { type: Number, default: 0 },
+      count: { type: Number, default: 0 },
     },
     avatar: {
       url: {

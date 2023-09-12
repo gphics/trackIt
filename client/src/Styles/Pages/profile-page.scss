@@ -1,0 +1,121 @@
+@use "../utils/colors.scss" as colors;
+
+.profile-page {
+    display: flex;
+    flex-direction: column;
+    width: 95vw;
+    margin: 0 auto;
+}
+
+.profile-hero-section {
+    height: 220px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    a {
+        color: colors.$blue;
+
+        &:hover {
+            .edit-icon {
+                transform: scale(1.5);
+
+            }
+        }
+    }
+
+    img {
+        height: 150px;
+        width: 150px;
+        border-radius: 100%;
+        border: 5px solid transparent;
+        border-bottom-color: colors.$blue;
+        border-left-color: colors.$blue;
+
+        &:hover {
+            transform: scale(1.02);
+            border: 5px solid transparent;
+            border-top-color: colors.$blue;
+            border-right-color: colors.$blue;
+
+        }
+    }
+
+    h4 {
+        margin: 5px 0;
+        font-size: .8em;
+    }
+}
+
+@mixin h4style {
+    text-transform: capitalize;
+    text-decoration: underline;
+    text-decoration-color: colors.$blue;
+    text-decoration-thickness: 3px;
+    margin: 2px 0;
+}
+
+.profile-personal-info {
+    margin: 5px 0;
+    display: flex;
+    flex-direction: column;
+
+    .each-profile-info {
+        display: flex;
+        flex-direction: column;
+        margin: 5px 0;
+
+        h4 {
+            @include h4style()
+        }
+
+        h5 {
+            margin-left: 3px;
+        }
+    }
+}
+
+.profile-debt-info {
+    h4 {
+        @include h4style()
+    }
+
+    table {
+        margin-top: 5px;
+        background: colors.$off-white;
+        width: 60%;
+        border-radius: 5px;
+
+        tr {
+            margin: 5px 0;
+            height: 30px;
+        }
+
+        th {
+            background-color: colors.$blue;
+            color: colors.$off-white;
+            text-align: left;
+            border: none;
+            padding: 0;
+            margin: 10px;
+
+        }
+
+        td {
+            &:first-child {
+                font-weight: 400;
+            }
+        }
+
+        @media (width <=760px) {
+            width: 95%;
+
+            th {
+                font-weight: 500;
+            }
+        }
+
+
+    }
+}

@@ -3,11 +3,13 @@ const UserModel = require("../../../Models/UserModel");
 const activateError = require("../../../Utils/activateError");
 
 module.exports = async (req, res, next) => {
+  console.log(req.body)
+  console.log(req.file)
   // if the user didint provide the file
   if (!req.file) {
     return next(activateError("file must be uploaded"));
   }
-  // rejecting i the file size is >= 1.3mb
+  // rejecting if the file size is >= 1.3mb
   if (req.file.size > 1572864) {
     return next(activateError("file size must be less than 1.5mb"));
   }
@@ -24,7 +26,7 @@ module.exports = async (req, res, next) => {
         req.file.path,
         { folder: "trackIt" },
         async (err, result) => {
-          if (err) return next(activateError(400, err));
+          if (err) return next(activateError(err.message));
           const { public_id, secure_url } = result;
           const userImgUpload = await UserModel.findByIdAndUpdate(
             req.session.authID,

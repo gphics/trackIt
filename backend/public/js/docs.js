@@ -58,6 +58,14 @@ const models = [
         ],
       },
       {
+        name: "totalPaidDebtt",
+        type: "Object",
+        content: [
+          { name: "amount", type: "Number" },
+          { name: "count", type: "Number" },
+        ],
+      },
+      {
         name: "totalDebtAmount",
         type: "Object",
         content: [
@@ -190,7 +198,7 @@ const userRoutes = [
   },
   {
     url: "/user/enable-dfa",
-    method: "get",
+    method: "post",
     request: "state(Boolean)",
     response: "returns the state of the dfa",
     sect: "User",
@@ -358,7 +366,7 @@ routes.forEach((elem) => {
     <ul>
     <li>Url: ${elem.url} </li>
     <li>Method: ${elem.method} </li>
-    <li>Request ${elem.request} </li>
+    <li>Request: ${elem.request} </li>
     <li>Response: ${elem.response} </li>
     </ul>
 

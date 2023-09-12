@@ -5,19 +5,10 @@ import { MdEmail } from "react-icons/md";
 import { BsFillPersonFill, BsPersonFillLock } from "react-icons/bs";
 import { PiGenderIntersexBold } from "react-icons/pi";
 import { toast } from "react-toastify";
-import fetchData from "../Utils/Axios/fetchData";
-
+import fetchData from "../Utils/DataFetch/fetchData";
+import inputType from "../Utils/TypeAnnotations/formInputAnn"
 const RegisterPage = () => {
-  type inputType = {
-    name: string;
-    type: string;
-    onChange: (name: string, value: string) => void;
-    label: string;
-    stateNames: { slice: string; name: string };
-    inputClass: string;
-    Icon?: any;
-    iconClass?: string;
-  };
+
   const dispatch: any = useDispatch();
   const { registerDetails } = useSelector((state: any) => state.userSlice);
 
@@ -58,6 +49,7 @@ const RegisterPage = () => {
       Icon: PiGenderIntersexBold,
       inputClass: "reg-input-holder",
       iconClass: "reg-input-icon",
+      selectOptions: ["male", "female"],
     },
     {
       name: "password",
@@ -72,37 +64,29 @@ const RegisterPage = () => {
   ];
   async function submitHandler(e: any) {
     e.preventDefault();
-    const { fullname, email, password } = registerDetails;
-    // checking if the field are filled
-    if (!fullname || !email || !password) {
-      toast("All field must be filled");
+    const { email, fullname, password } = registerDetails;
+    if (!email || !fullname || !password) {
+      toast.warning("fill all fields");
       return;
     }
-    // checking the password length
     if (password.length < 6) {
-      toast("password length must be equal to or greater than six");
+      toast.warning("password length must be reater than 5");
       return;
     }
-    // fetching the data
     dispatch(updateIsLoading(true));
-    const data = await fetchData("user/register", registerDetails, "POST");
-
+    const data = await fetchData("user/register", "POST", registerDetails);
     if (data) {
       dispatch(updateIsLoading(false));
-      if (typeof data === "string") {
-        toast.error(data);
-        return;
-      }
+
       if (data.data) {
         dispatch(fillUser(data.data));
         dispatch(clearRegisterState());
-        toast.success("user created successfuly");
+        toast.success("account created successfuly");
         return;
       }
+      toast.error(data);
+      return;
     }
-
-    // const
-    // const body: string = JSON.stringify(registerDetail);
   }
 
   return (
@@ -112,6 +96,7 @@ const RegisterPage = () => {
         {inputArr.map((elem, i) => (
           <FormInput {...elem} key={i} />
         ))}
+
         <button onClick={submitHandler} className="reg-btn" type="submit">
           register
         </button>

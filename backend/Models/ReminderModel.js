@@ -7,7 +7,7 @@ const schema = mongoose.Schema(
     dueDate: { type: Date, required: true },
     repeat: { type: Boolean, default: false },
     isUpdated: { type: Boolean, default: false },
-    repetitionInterval: { type: String, enums: ["daily", "weekly", "monthly"] },
+    repetitionInterval: { type: String, enums: ["none","daily", "weekly", "monthly"] },
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   },
   { timestamps: true }

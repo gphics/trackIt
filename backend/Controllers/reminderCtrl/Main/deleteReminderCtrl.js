@@ -8,13 +8,13 @@ module.exports = async (req, res, next) => {
   try {
     const reminder = await ReminderModel.findByIdAndDelete(id);
     if (!reminder) {
-      return next(activateError(404, "reminder not found"));
+      return next(activateError("reminder not found", 404));
     }
     const user = await UserModel.findById(req.session.authID);
     user.Reminders = user.Reminders.filter((elem) => elem.toString() !== id);
     await user.save();
     res.json({ data: "reminder deleted"});
   } catch (error) {
-    next(activateError(400, error.message));
+    next(activateError(error.message));
   }
 };

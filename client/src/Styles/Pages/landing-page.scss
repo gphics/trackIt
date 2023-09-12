@@ -5,7 +5,7 @@
     justify-content: space-between;
     width: 96vw;
     margin: 5px auto;
-    height: calc(90vh - 100px);
+    height: calc(100vh - 100px);
 
     .text-section {
         margin-top: 15;
@@ -14,7 +14,7 @@
         flex-direction: column;
         align-items: flex-start;
         justify-content: center;
-
+        flex: 0 0 auto;
         h3 {
             text-transform: capitalize;
             width: 95%;
@@ -64,7 +64,7 @@
         justify-content: center;
         width: 48%;
         overflow: hidden;
-        flex: 1 1 auto;
+        flex: 0 0 auto;
 
         img {
             width: 98%;
@@ -72,13 +72,13 @@
         }
     }
 
-    @media (width <= 760px) {
+    @media (width <=760px) {
         flex-direction: column;
 
         .text-section,
         .hero-section {
             width: 96%;
-            height: 30%;
+            height: 40%;
             font-size: .8em;
         }
     }

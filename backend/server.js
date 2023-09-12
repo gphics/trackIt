@@ -13,8 +13,32 @@ dbConnect();
 // -----------
 // ----------
 // middlewares
-app.use(cors({ origin: "http://localhost:5173", credentials: true }));
-// https://trackit-gb3z.onrender.com
+app.use(
+  cors({
+    origin: ["https://trackit-gb3z.onrender.com", "http://localhost:5173"],
+    credentials: true,
+  })
+);
+// configuring express session
+app.use(
+  session({
+    name: "trackIt",
+    secret: process.env.SESSION_SECRET,
+    saveUninitialized: true,
+    resave: false,
+    rolling: true,
+    cookie: {
+      maxAge: 24 * 60 * 60 * 1000,
+      
+    },
+
+    store: MongoStore.create({
+      mongoUrl: process.env.DB_URL,
+      ttl: 24 * 60 * 60,
+    }),
+  })
+);
+//
 app.use(express.static("public"));
 app.set("view engine", "ejs");
 // to allow sending of json data
@@ -22,21 +46,6 @@ app.use(express.json());
 // to allow receiving form data
 app.use(express.urlencoded({ extended: true }));
 
-app.enable("trust proxy");
-
-// configuring express session
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET,
-    saveUninitialized: true,
-    resave: true,
-    cookie: { maxAge: 24 * 60 * 60 * 1000, secure: false },
-    store: MongoStore.create({
-      mongoUrl: process.env.DB_URL,
-      ttl: 24 * 60 * 60,
-    }),
-  })
-);
 // -----------
 // ----------
 // routes
@@ -53,7 +62,10 @@ app.get("/docs", (req, res) => {
 // error handling
 app.use((err, req, res, next) => {
   const { statusCode, message } = err;
-  res.status(statusCode).json({ status: "failed", statusCode, message });
+  console.log(statusCode, message);
+
+  const code = statusCode ? statusCode : 400
+  res.status(code).json({ status: "failed", code, message });
 });
 // listening to the server
 app.listen(9000);

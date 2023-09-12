@@ -1,15 +1,5 @@
 import { useSelector } from "react-redux";
-
-type inputType = {
-  name: string;
-  type: string;
-  onChange: (name: string, value: string) => void;
-  label: string;
-  stateNames: { slice: string; name: string };
-  inputClass: string;
-  Icon?: any;
-  iconClass?: string;
-};
+import formInputAnn from "../../Utils/TypeAnnotations/formInputAnn";
 const FormInput = ({
   type,
   onChange,
@@ -19,23 +9,39 @@ const FormInput = ({
   Icon,
   inputClass,
   iconClass,
-}: inputType) => {
-  const value = useSelector(
-    (state: any) => state[stateNames.slice][stateNames.name][name]
+  selectOptions,
+  showLabel = false,
+  isTextArea
+}: formInputAnn) => {
+  const { name: stateName, slice, nameContainer } = stateNames;
+  const value = useSelector((state: any) =>
+    nameContainer
+      ? state[slice][stateName][nameContainer][name]
+      : state[slice][stateName][name]
   );
   if (type === "select") {
     return (
       <div className={inputClass}>
+        {showLabel && <label htmlFor={name}> {label} </label>}
         <select
+          id={name}
           onChange={(e) => {
-            onChange(name, e.target.value);
+            if (nameContainer) {
+              onChange(name, e.target.value, nameContainer);
+            } else {
+              onChange(name, e.target.value);
+            }
           }}
           name={name}
-          title="gender"
+          title={name}
           value={value}
         >
-          <option value="male">male</option>
-          <option value="female">female</option>
+          {selectOptions?.map((elem: string, i: number) => (
+            <option key={i} value={elem}>
+              {" "}
+              {elem}{" "}
+            </option>
+          ))}
         </select>
         {Icon && <Icon className={iconClass} />}
       </div>
@@ -43,16 +49,41 @@ const FormInput = ({
   }
   return (
     <div className={inputClass}>
-      <input
-        placeholder={`your ${label} ...`}
-        type={type}
-        onChange={(e) => {
-          onChange(name, e.target.value);
-        }}
-        name={name}
-        value={value}
-        title={label}
-      />
+      {showLabel && <label htmlFor={name}> {label} </label>}
+      {isTextArea ? (
+        <textarea
+          id={name}
+          autoComplete="true"
+          placeholder={`${label} ...`}
+          onChange={(e) => {
+            if (nameContainer) {
+              onChange(name, e.target.value, nameContainer);
+            } else {
+              onChange(name, e.target.value);
+            }
+          }}
+          name={name}
+          value={value}
+          title={label}
+        />
+      ) : (
+        <input
+          id={name}
+          autoComplete="true"
+          placeholder={`${label} ...`}
+          type={type}
+          onChange={(e) => {
+            if (nameContainer) {
+              onChange(name, e.target.value, nameContainer);
+            } else {
+              onChange(name, e.target.value);
+            }
+          }}
+          name={name}
+          value={value}
+          title={label}
+        />
+      )}
       {Icon && <Icon className={iconClass} />}
     </div>
   );

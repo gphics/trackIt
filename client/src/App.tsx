@@ -10,9 +10,21 @@ import "react-toastify/dist/ReactToastify.css";
 import { useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import Loading from "./Utils/Others/Loading";
-// import AuthStorage from "./Utils/AuthStorage";
+import ProfilePage from "./Pages/ProfilePage";
+import UserUpdatePage from "./Pages/UserUpdatePage";
+import DebtsPage from "./Pages/DebtPages/DebtsPage";
+import CreateDebt from "./Pages/DebtPages/CreateDebt";
+import SingleDebt from "./Pages/DebtPages/SingleDebt";
+import UpdateDebt from "./Pages/DebtPages/UpdateDebt";
+import AllReminders from "./Pages/ReminderPages/AllReminders";
+import CreateReminder from "./Pages/ReminderPages/CreateReminder";
+import UpdateReminder from "./Pages/ReminderPages/UpdateReminder";
+import SingleReminder from "./Pages/ReminderPages/SingleReminder";
+import DashboardPage from "./Pages/DashboardPage";
+
 const App = () => {
   const { isLoading } = useSelector((state: any) => state.userSlice);
+
   // AuthStorage.setItem("isAuthenticated", "true");
   return (
     <BrowserRouter>
@@ -34,25 +46,25 @@ const App = () => {
         </Route>
         {/* main route and it is going to be protected */}
         <Route path="/" element={<ProtectedHOC />}>
-          <Route index element={<Dashboard />} />
+          <Route index element={<DashboardPage/>} />
           {/* user route */}
           <Route path="user" element={<HOC />}>
-            <Route index element={"user profile"} />
-            <Route element={"user update"} path="update" />
+            <Route index element={<ProfilePage />} />
+            <Route element={<UserUpdatePage />} path="update" />
           </Route>
           {/* debt route */}
           <Route path="debt" element={<HOC />}>
-            <Route index element={"all debts"} />
-            <Route path="create" element={"create debt"} />
-            <Route path="update/:id" element={"update debt"} />
-            <Route path=":id" element={"single debt ."} />
+            <Route index element={<DebtsPage />} />
+            <Route path="create" element={<CreateDebt />} />
+            <Route path="update/:id" element={<UpdateDebt />} />
+            <Route path=":id" element={<SingleDebt />} />
           </Route>
           {/* reminder route */}
           <Route path="reminder" element={<HOC />}>
-            <Route index element={"all reminders"} />
-            <Route path="create" element={"create reminder"} />
-            <Route path="update/:id" element={"update reminder"} />
-            <Route path=":id" element={"single reminder ."} />
+            <Route index element={<AllReminders />} />
+            <Route path="create" element={<CreateReminder />} />
+            <Route path="update/:id" element={<UpdateReminder />} />
+            <Route path=":id" element={<SingleReminder />} />
           </Route>
         </Route>
         {/* Error route */}
@@ -62,15 +74,5 @@ const App = () => {
   );
 };
 
-function Dashboard() {
-  return (
-    <section>
-      <h1>this is the dashboard</h1>
-      <aside className="as-first"></aside>
-      <aside className="as-second"></aside>
-      <aside className="as-third"></aside>
-      <article></article>
-    </section>
-  );
-}
+
 export default App;

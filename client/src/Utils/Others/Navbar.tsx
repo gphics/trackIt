@@ -1,10 +1,11 @@
 import { NavLink } from "react-router-dom";
-import Logo from "../../asset/Logo.svg";
+// import Logo from "../../asset/Logo.svg";
 import { BiMenu } from "react-icons/bi";
 import { userSliceActions } from "../../Model/userSlice";
 import { useDispatch } from "react-redux";
-import fetchData from "../Axios/fetchData";
 import { toast } from "react-toastify";
+import fetchData from "../DataFetch/fetchData";
+import { debtSliceActions } from "../../Model/debtSlice";
 type arr = {
   navArr: { url: string; name: string }[];
   elemName?: string;
@@ -16,7 +17,7 @@ function Navbar({ navArr, menuAction }: arr) {
     <nav className="navbar">
       {/* contains the logo and menu icon. also the links if the user is a desktop user */}
       <section className="nav-header">
-        <img alt="trackIt logo" className="nav-logo" src={Logo} />
+        {/* <img alt="trackIt logo" className="nav-logo" src={Logo} /> */}
         <LinkDisplay navArr={navArr} elemName="nav-list nav-desktop" />
         <BiMenu className="menu-icon" onClick={menuAction} />
       </section>
@@ -34,22 +35,28 @@ function Navbar({ navArr, menuAction }: arr) {
 function LinkDisplay({ navArr, elemName, menuAction }: arr) {
   const dispatch = useDispatch();
   const { logout, updateIsLoading } = userSliceActions;
+  const {fullDebtClear} = debtSliceActions
   async function logMeOut() {
-    dispatch(updateIsLoading(true))
+    dispatch(updateIsLoading(true));
     const data = await fetchData("user/logout");
-    console.log(data);
     if (data) {
-       dispatch(updateIsLoading(false));
-      if (data.status) {
-        toast.error(data.message);
+      dispatch(updateIsLoading(false));
+
+      if (typeof data === "string") {
+        if (data === "you are not authenticated") {
+          dispatch(logout());
+        }
+        toast.error(data);
+
         return;
       }
-      toast.success(data.data);
       dispatch(logout());
+      dispatch(fullDebtClear())
+      toast.success(data.data);
     }
   }
   return (
-    <section className={`${elemName}`}>
+    <div className={`${elemName}`}>
       {navArr.map((item: { url: string; name: string }, index: number) => {
         return item.name === "logout" ? (
           <button
@@ -75,7 +82,7 @@ function LinkDisplay({ navArr, elemName, menuAction }: arr) {
           </NavLink>
         );
       })}
-    </section>
+    </div>
   );
 }
 export default Navbar;
