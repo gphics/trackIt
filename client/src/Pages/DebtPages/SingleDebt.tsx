@@ -5,7 +5,7 @@ import fetchData from "../../Utils/DataFetch/fetchData";
 import { toast } from "react-toastify";
 import { debtSliceActions } from "../../Model/debtSlice";
 import { useEffect } from "react";
-import dateInputFormatter from "../../Utils/DataFetch/dateInputFormatter";
+
 const SingleDebt = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -44,8 +44,8 @@ const SingleDebt = () => {
     { name: "paid", value: singleDebt.paid },
     { name: "debt info", value: singleDebt.debtInfo },
     { name: "category", value: singleDebt.category },
-    { name: "incurred date", value: dateInputFormatter(singleDebt.incurredDate) },
-    { name: "deadline", value: dateInputFormatter(singleDebt.deadline) },
+    { name: "incurred date", value: new Date(singleDebt.incurredDate).toDateString() },
+    { name: "deadline", value: new Date(singleDebt.deadline).toDateString() },
   ];
   function showOtherInfo(obj: any): boolean {
     if (obj?.location || obj.contact || obj.name) {

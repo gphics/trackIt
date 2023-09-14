@@ -46,12 +46,12 @@ const UpdateDebt = () => {
         toast.error(data);
         return;
       }
-      const { incuredDate: inc, deadline: dead } = data.data;
-      const [incuredDate, deadline] = [
+      const { incurredDate: inc, deadline: dead } = data.data;
+      const [incurredDate, deadline] = [
         dateInputFormatter(inc),
         dateInputFormatter(dead),
       ];
-      dispatch(fillDebtCreate({ ...data.data, incuredDate, deadline }));
+      dispatch(fillDebtCreate({ ...data.data, incurredDate, deadline }));
     }
   }
   useEffect(() => {
