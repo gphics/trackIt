@@ -1,6 +1,6 @@
 export default async function fetchData(url: string, method = "GET", body?: any, file = false) {
     const baseUrl = import.meta.env.VITE_API_URL
-    console.log(baseUrl)
+
     try {
         let first = {}
         if (method === "GET" || method === "DELETE") {

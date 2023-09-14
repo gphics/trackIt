@@ -15,7 +15,7 @@ const NotificationComponent = ({ closeModal }: { closeModal: () => void }) => {
     try {
       const sw = await navigator.serviceWorker.ready;
       const notify = await Notification.requestPermission();
-      console.log(notify);
+      
       // @ts-ignore
       if (notify !== "granted") {
         closeModal();

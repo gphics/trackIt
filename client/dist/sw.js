@@ -1216,4 +1216,4 @@ self.addEventListener("push", (a) => {
   const e = a.data.json(), { title: t, body: s } = e;
   self.registration.showNotification(t, { body: s });
 });
-se([{"revision":null,"url":"assets/index-b489ab63.js"},{"revision":null,"url":"assets/index-c59271fd.css"},{"revision":"5792d0998d8dcf450b30b08ed157139a","url":"index.html"},{"revision":"1872c500de691dce40960bb85481de07","url":"registerSW.js"},{"revision":"7fdb844117dec2994fea1a51b80938f5","url":"manifest.webmanifest"}]);
+se([{"revision":null,"url":"assets/index-20e1fed8.js"},{"revision":null,"url":"assets/index-c59271fd.css"},{"revision":"e48961af88f7fabd5afedd1e51cec24b","url":"index.html"},{"revision":"1872c500de691dce40960bb85481de07","url":"registerSW.js"},{"revision":"7fdb844117dec2994fea1a51b80938f5","url":"manifest.webmanifest"}]);
