@@ -15,10 +15,10 @@ export default defineConfig({
         "orientation": "portrait",
         "start_url": "/",
         "id": "trackIt353535353",
-        "icons": [
-          { "src": "src/asset/512.png", type: "image/png", sizes: "512x512" },
-          // { "src": "src/asset/192.png", type: "image/png", sizes: "192x192" }
-        ],
+        // "icons": [
+        //   { "src": "src/asset/512.png", type: "image/png", sizes: "512x512" },
+        //   // { "src": "src/asset/192.png", type: "image/png", sizes: "192x192" }
+        // ],
         "display": "standalone"
 
       },
