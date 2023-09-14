@@ -4,6 +4,6 @@ export default interface debtSliceAnn {
     singleDebt: object,
     sortedDebts: [],
     debtCreate: {
-        title: string, amount: number, incuredDate: string, deadline: string, paid: boolean, debtInfo: string, category: "to_be_collected", debtorInfo: { name: string, location: string, contact: number }, creditorInfo: { name: string, location: string, contact: number }
+        title: string, amount: number, incurredDate: string, deadline: string, paid: boolean, debtInfo: string, category: "to_be_collected", debtorInfo: { name: string, location: string, contact: number }, creditorInfo: { name: string, location: string, contact: number }
     }
 }

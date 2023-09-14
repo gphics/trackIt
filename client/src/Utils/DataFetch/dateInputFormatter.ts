@@ -1,4 +1,4 @@
-export default function dateInputFormatter(dt:string) {
+export default function dateInputFormatter(dt: string) {
     if (!dt) return "";
     const date = new Date(dt);
     const month =

@@ -13,14 +13,28 @@ dbConnect();
 // -----------
 // ----------
 // middlewares
+/*
+// development
 app.use(
   cors({
-    origin: "https://trackit-gb3z.onrender.com",
+    origin: "http://localhost:5173",
     credentials: true,
   })
 );
+*/
+
+// production
+app.use(
+  cors({
+    origin:  "https://trackit-gb3z.onrender.com",
+    credentials: true,
+  })
+)
+
 app.enable("trust proxy");
 // configuring express session
+
+// production
 app.use(
   session({
     name: "trackIt",
@@ -41,6 +55,28 @@ app.use(
     }),
   })
 );
+
+/*
+// development
+app.use(
+  session({
+    name: "trackIt",
+    secret: process.env.SESSION_SECRET,
+    saveUninitialized: true,
+    resave: false,
+    rolling: true,
+    cookie: {
+      maxAge: 24 * 60 * 60 * 1000,
+     
+    },
+
+    store: MongoStore.create({
+      mongoUrl: process.env.DB_URL,
+      ttl: 24 * 60 * 60,
+    }),
+  })
+);
+*/
 //
 app.use(express.static("public"));
 app.set("view engine", "ejs");

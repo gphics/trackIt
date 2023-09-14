@@ -7,7 +7,7 @@ const initialState: debtSliceAnn = {
     singleDebt: {},
     sortedDebts: [],
     debtCreate: {
-        title: "", amount: +"", incuredDate: "", deadline: "", paid: false, debtInfo: "", category: "to_be_collected", debtorInfo: { name: "", location: "", contact: +"" }, creditorInfo: { name: "", location: "", contact: +"" }
+        title: "", amount: +"", incurredDate: "", deadline: "", paid: false, debtInfo: "", category: "to_be_collected", debtorInfo: { name: "", location: "", contact: +"" }, creditorInfo: { name: "", location: "", contact: +"" }
     }
 }
 

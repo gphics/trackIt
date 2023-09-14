@@ -36,8 +36,8 @@ const DebtForm = ({onSubmit, isUpdate =false}:{onSubmit:(e:any)=>void, isUpdate?
       showLabel: true,
     },
     {
-      name: "incuredDate",
-      label: "incuredDate",
+      name: "incurredDate",
+      label: "incurredDate",
       type: "date",
       inputClass: "debt-input-holder",
       onChange,
