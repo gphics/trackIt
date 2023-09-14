@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react'
 import { VitePWA } from "vite-plugin-pwa"
 // https://vitejs.dev/config/
 export default defineConfig({
-  
+
   plugins: [react(),
   VitePWA(
     {
@@ -17,7 +17,7 @@ export default defineConfig({
         "id": "trackIt353535353",
         "icons": [
           { "src": "src/asset/512.png", type: "image/png", sizes: "512x512" },
-          { "src": "src/asset/192.png", type: "image/png", sizes: "192x192" }
+          // { "src": "src/asset/192.png", type: "image/png", sizes: "192x192" }
         ],
         "display": "standalone"
 
