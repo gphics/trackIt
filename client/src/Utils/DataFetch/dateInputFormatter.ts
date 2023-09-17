@@ -3,8 +3,8 @@ export default function dateInputFormatter(dt: string) {
     const date = new Date(dt);
     const month =
         date.getMonth().toString().length === 2
-            ? date.getMonth().toString()
-            : `0${date.getMonth()}`;
+            ? (date.getMonth()+1).toString()
+            : `0${date.getMonth() + 1}`;
     const day =
         date.getDate().toString().length === 2
             ? date.getDate().toString()
