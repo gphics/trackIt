@@ -11,7 +11,7 @@ const SingleReminder = () => {
   const { singleReminder } = useSelector((state: any) => state.reminderSlice);
   const { fillSingleReminder } = reminderSliceActions;
   const dispatch = useDispatch();
-  const { updateIsLoading, logout } = userSliceActions;
+  const { updateIsLoading} = userSliceActions;
   const navigate = useNavigate();
   async function fetchReminder() {
     const response = await fetchData("reminder/" + id);

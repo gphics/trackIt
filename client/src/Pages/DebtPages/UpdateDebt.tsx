@@ -11,7 +11,7 @@ const UpdateDebt = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { updateIsLoading, logout } = userSliceActions;
+  const { updateIsLoading } = userSliceActions;
   const { fillDebtCreate, fillSingleDebt } = debtSliceActions;
   const { debtCreate } = useSelector((state: any) => state.debtSlice);
   async function onSubmit(e: any) {

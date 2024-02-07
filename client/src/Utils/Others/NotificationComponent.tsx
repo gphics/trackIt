@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { userSliceActions } from "../../Model/userSlice";
 const NotificationComponent = ({ closeModal }: { closeModal: () => void }) => {
   const dispatch = useDispatch();
-  const { updateIsLoading, logout } = userSliceActions;
+  const { updateIsLoading} = userSliceActions;
   function onClick(e: any) {
     if (e.target.classList.contains("deny")) {
       closeModal();
@@ -27,20 +27,20 @@ const NotificationComponent = ({ closeModal }: { closeModal: () => void }) => {
         userVisibleOnly: true,
         applicationServerKey: import.meta.env.VITE_NOTIFICATION_PUBLIC_KEY,
       });
-      const data = await fetchData("user/subscribe", "POST", {
+      const response = await fetchData("user/subscribe", "POST", {
         subscription,
       });
 
-      if (data) {
+      if (response) {
+        const {data, err} = response
         dispatch(updateIsLoading(false));
-        if (typeof data === "string") {
-          if (data === "you are not authenticated") {
-            dispatch(logout());
-          }
-          toast.error(data);
+        if (err) {
+         
+          toast.error(err);
           return;
         }
-        toast.success(data.data);
+        // @ts-ignore
+        toast.success(data);
 
       }
     } catch (error: any) {

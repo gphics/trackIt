@@ -7,7 +7,7 @@ import SmallSingleDebts from "../Components/DebtComponent/SmallSingleDebts";
 import ReminderList from "../Components/ReminderComponent/ReminderList";
 import NotificationComponent from "../Utils/Others/NotificationComponent";
 const DashboardPage = () => {
-  const { updateIsLoading, fillUser, logout } = userSliceActions;
+  const { updateIsLoading, fillUser } = userSliceActions;
   const dispatch = useDispatch();
   const { user } = useSelector((state: any) => state.userSlice);
   const [control, setControl] = useState(1);
