@@ -12,22 +12,21 @@ const SingleReminder = () => {
   const { fillSingleReminder } = reminderSliceActions;
   const dispatch = useDispatch();
   const { updateIsLoading, logout } = userSliceActions;
-const navigate = useNavigate()
+  const navigate = useNavigate();
   async function fetchReminder() {
-    const data = await fetchData("reminder/" + id);
+    const response = await fetchData("reminder/" + id);
     dispatch(updateIsLoading(true));
-    if (data) {
+    if (response) {
       dispatch(updateIsLoading(false));
-      if (typeof data === "string") {
-        if (data === "you are not authenticated") {
-          dispatch(logout());
-        } else {
-          navigate("/reminder")
-        }
-        toast.error(data);
+      const { data, err } = response;
+      if (err) {
+        navigate("/reminder");
+
+        toast.error(err);
         return;
       }
-      dispatch(fillSingleReminder(data.data));
+      // @ts-ignore
+      dispatch(fillSingleReminder(data));
     }
   }
 
@@ -49,20 +48,18 @@ const navigate = useNavigate()
   ];
   async function deleteReminder(e: any) {
     dispatch(updateIsLoading(true));
-    const data = await fetchData("reminder/delete/" + id, "DELETE")
-     if (data) {
-       dispatch(updateIsLoading(false));
-       if (typeof data === "string") {
-         if (data === "you are not authenticated") {
-           dispatch(logout());
-         }
-         toast.error(data);
-         return;
-       }
-        toast.error(data.data);
-       navigate("/reminder")
-     }
-    
+    const response = await fetchData("reminder/" + id, "DELETE");
+    if (response) {
+      dispatch(updateIsLoading(false));
+      const { err, data } = response;
+      if (err) {
+        toast.error(err);
+        return;
+      }
+      // @ts-ignore
+      toast.error(data);
+      navigate("/reminder");
+    }
   }
   return singleReminder._id ? (
     <div className="single-reminder-page">
@@ -85,7 +82,9 @@ const navigate = useNavigate()
           {" "}
           delete
         </button>
-        <Link className="btn" to={`/reminder/update/` + id}>Update</Link>
+        <Link className="btn" to={`/reminder/update/${id}`}>
+          Update
+        </Link>
       </div>
     </div>
   ) : (

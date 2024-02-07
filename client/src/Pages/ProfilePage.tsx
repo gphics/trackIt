@@ -7,7 +7,7 @@ import { FaEdit } from "react-icons/fa";
 const ProfilePage = () => {
   const dispatch = useDispatch();
   const { user } = useSelector((state: any) => state.userSlice);
-  const { updateIsLoading, fillUser, logout } = userSliceActions;
+  const { updateIsLoading, fillUser } = userSliceActions;
   const personalInfoArr = user?._id && [
     { name: "email", value: user?.email },
     { name: "gender", value: user?.gender },
@@ -16,17 +16,15 @@ const ProfilePage = () => {
   ];
   async function fetchProfile() {
     dispatch(updateIsLoading(true));
-    const data = await fetchData("user");
-    if (data) {
+    const response = await fetchData("user");
+    if (response) {
       dispatch(updateIsLoading(false));
-      if (typeof data === "string") {
-        if (data === "you are not authenticated") {
-          dispatch(logout());
-        }
-        toast.error(data);
+      const { err, data } = response;
+      if (err) {
+        toast.error(err);
         return;
       }
-      dispatch(fillUser(data.data));
+      dispatch(fillUser(data));
     }
   }
   useEffect(() => {

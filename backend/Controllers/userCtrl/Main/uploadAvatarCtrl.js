@@ -1,10 +1,14 @@
 const { configuredCloudinary } = require("../../../Config/cloudinaryStore");
+const jwtVerify = require("../../../Config/jwtVerify");
 const UserModel = require("../../../Models/UserModel");
 const activateError = require("../../../Utils/activateError");
 
 module.exports = async (req, res, next) => {
-  console.log(req.body)
-  console.log(req.file)
+  const { auth_token } = req.query;
+  const { data, err } = jwtVerify(auth_token);
+  if (err) {
+    return next(activateError(err));
+  }
   // if the user didint provide the file
   if (!req.file) {
     return next(activateError("file must be uploaded"));
@@ -28,21 +32,21 @@ module.exports = async (req, res, next) => {
         async (err, result) => {
           if (err) return next(activateError(err.message));
           const { public_id, secure_url } = result;
-          const userImgUpload = await UserModel.findByIdAndUpdate(
-            req.session.authID,
+          const userImgUpload = await UserModel.findOneAndUpdate(
+            { email: data.email },
             { avatar: { url: secure_url, public_id } },
             { new: true }
           );
-          res.json({ data: userImgUpload });
+          res.json({
+            data: { data: "upload successful", auth_token },
+            err: null,
+          });
         }
       );
     } else {
-      return next(
-        activateError(`${req.file.mimetype} format not supported`)
-      );
+      return next(activateError(`${req.file.mimetype} format not supported`));
     }
   } catch (error) {
-    console.log(error);
     next(activateError(error.message));
   }
 };

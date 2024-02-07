@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import Logo from "../../asset/Logo.svg";
 import { BiMenu } from "react-icons/bi";
 import { userSliceActions } from "../../Model/userSlice";
@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import fetchData from "../DataFetch/fetchData";
 import { debtSliceActions } from "../../Model/debtSlice";
+import cookieOps from "../AuthStorage/cookieStore";
 type arr = {
   navArr: { url: string; name: string }[];
   elemName?: string;
@@ -33,26 +34,26 @@ function Navbar({ navArr, menuAction }: arr) {
 }
 
 function LinkDisplay({ navArr, elemName, menuAction }: arr) {
+  const Navigate = useNavigate();
   const dispatch = useDispatch();
   const { logout, updateIsLoading } = userSliceActions;
-  const {fullDebtClear} = debtSliceActions
+  const { fullDebtClear } = debtSliceActions;
   async function logMeOut() {
     dispatch(updateIsLoading(true));
-    const data = await fetchData("user/logout");
-    if (data) {
+    const response = await fetchData("user/logout");
+    if (response) {
       dispatch(updateIsLoading(false));
-
-      if (typeof data === "string") {
-        if (data === "you are not authenticated") {
-          dispatch(logout());
-        }
-        toast.error(data);
-
-        return;
-      }
+      const { err, data } = response;
       dispatch(logout());
-      dispatch(fullDebtClear())
-      toast.success(data.data);
+      dispatch(fullDebtClear());
+      cookieOps.remove("_at_");
+      if (err) {
+        toast.error(err);
+      } else {
+        // @ts-ignore
+        toast.success(data);
+      }
+      Navigate("/landing-page");
     }
   }
   return (

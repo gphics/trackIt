@@ -3,6 +3,8 @@ const activateError = require("../../../Utils/activateError");
 
 module.exports = async (req, res, next) => {
   const { id } = req.params;
+  const { auth_token } = req.query;
+
   try {
     if (!id) {
       return next(activateError("reminder id must be provided"));
@@ -11,7 +13,7 @@ module.exports = async (req, res, next) => {
     if (!reminder) {
       return next(activateError("reminder not found", 404));
     }
-    res.json({ data: reminder });
+    res.json({ data: { data: reminder, auth_token }, err: null });
   } catch (error) {
     next(activateError(error.message));
   }

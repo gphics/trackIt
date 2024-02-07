@@ -1,4 +1,4 @@
-const checkIsLogin = require("../../Middlewares/Auth/checkIsLogin");
+const permitIfAuth = require("../../Middlewares/Auth/permitIfAuth");
 const createReminderCtrl = require("./Main/createReminderCtrl");
 const deleteReminderCtrl = require("./Main/deleteReminderCtrl");
 const fetchAllCtrl = require("./Main/fetchAllCtrl");
@@ -10,31 +10,31 @@ module.exports = [
     url: "/create",
     action: createReminderCtrl,
     method: "post",
-    mid: [checkIsLogin],
+    mid: [permitIfAuth],
   },
   {
-    url: "/update/:id",
+    url: "/:id",
     action: updateReminderCtrl,
     method: "put",
-    mid: [checkIsLogin],
+    mid: [permitIfAuth],
   },
 
   {
-    url: "/delete/:id",
+    url: "/:id",
     action: deleteReminderCtrl,
     method: "delete",
-    mid: [checkIsLogin],
+    mid: [permitIfAuth],
   },
   {
-    url: "/fetch-all",
+    url: "/all",
     action: fetchAllCtrl,
     method: "get",
-    mid: [checkIsLogin],
+    mid: [permitIfAuth],
   },
   {
     url: "/:id",
     action: fetchReminderCtrl,
     method: "get",
-    mid: [checkIsLogin],
+    mid: [permitIfAuth],
   },
 ];

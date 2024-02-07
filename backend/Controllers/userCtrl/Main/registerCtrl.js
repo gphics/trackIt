@@ -1,3 +1,4 @@
+const jwtSign = require("../../../Config/jwtSign");
 const sendMail = require("../../../Config/sendMail");
 const UserModel = require("../../../Models/UserModel");
 const activateError = require("../../../Utils/activateError");
@@ -22,11 +23,9 @@ module.exports = async (req, res, next) => {
       isActive: true,
       gender,
     });
-    console.log("I am the registered user")
+
     if (user) {
-      console.log("I am saving the session");
-      req.session.authID = user._id;
-      console.log(req.session.authID);
+      const auth_token = jwtSign({ email });
       // writeup to be sent to mail if user created successfully
       const html = `
 <html>
@@ -47,7 +46,10 @@ Welcome to trackIt, ${gender === "male" ? "Mr " + fullname : "Mrs " + fullname}.
 
       sendMail(email, "Account creation", html);
 
-      return res.json({ data: user });
+      return res.json({
+        data: { auth_token, data: "user created successfully" },
+        err: null,
+      });
     }
   } catch (error) {
     return next(activateError(error.message));

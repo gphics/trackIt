@@ -12,19 +12,17 @@ import { useEffect, useState } from "react";
 import inputType from "../Utils/TypeAnnotations/formInputAnn";
 import { useNavigate } from "react-router-dom";
 const UserUpdatePage = () => {
-  const navigate = useNavigate()
+  const Navigate = useNavigate();
   const {
     passwordUserUpdate,
     emailUserUpdate,
     basicUserUpdate,
     updateIsLoading,
-    logout,
-    fillUser,
     preparingForUserUpdate,
   } = userSliceActions;
   const user = useSelector((state: any) => state.userSlice);
   const dispatch = useDispatch();
-  const [fileState, setFileState] = useState({ state: false, file:{} });
+  const [fileState, setFileState] = useState({ state: false, file: {} });
   function basicOnChange(name: string, value: string): void {
     dispatch(basicUserUpdate({ name, value }));
   }
@@ -44,14 +42,13 @@ const UserUpdatePage = () => {
       inputClass: "user-update-input",
       iconClass: "user-update-icon",
       Icon: BsFillPersonFill,
-     
     },
     {
       name: "gender",
       type: "select",
       onChange: basicOnChange,
       label: "gender",
-       selectOptions:["male", "female"],
+      selectOptions: ["male", "female"],
       stateNames: { slice: "userSlice", name: "basicUserUpdate" },
       inputClass: "user-update-input",
       iconClass: "user-update-icon",
@@ -114,79 +111,77 @@ const UserUpdatePage = () => {
   async function basicSubmitHander(e: any) {
     e.preventDefault();
     dispatch(updateIsLoading(true));
-    console.log(user.basicUserUpdate);
-    const data = await fetchData("user/update", "PUT", user.basicUserUpdate);
-    if (data) {
+    const response = await fetchData(
+      "user/update",
+      "PUT",
+      user.basicUserUpdate
+    );
+    if (response) {
       dispatch(updateIsLoading(false));
-      if (typeof data === "string") {
-        if (data === "you are not authenticated") {
-          dispatch(logout());
-        }
-        toast.error(data);
+      const { err } = response;
+      if (err) {
+        toast.error(err);
         return;
       }
-      dispatch(fillUser(data.data));
       toast.success("basic info updated successfuly");
-      navigate("/user")
+      Navigate("/user");
     }
   }
   async function passwordSubmitHander(e: any) {
     e.preventDefault();
     dispatch(updateIsLoading(true));
-    const data = await fetchData(
+    const response = await fetchData(
       "user/update-password",
       "PUT",
       user.passwordUpdate
     );
-    if (data) {
+    if (response) {
       dispatch(updateIsLoading(false));
-      if (typeof data === "string") {
-        if (data === "you are not authenticated") {
-          dispatch(logout());
-        }
-        toast.error(data);
+      const { err } = response;
+      if (err) {
+        toast.error(err);
         return;
       }
       toast.success("password updated successfuly");
-      dispatch(fillUser(data.data));
+      Navigate("/user");
     }
   }
   async function emailSubmitHander(e: any) {
     e.preventDefault();
     dispatch(updateIsLoading(true));
-    const data = await fetchData("user/update-email", "PUT", user.emailUpdate);
-    if (data) {
+    const response = await fetchData(
+      "user/update-email",
+      "PUT",
+      user.emailUpdate
+    );
+    if (response) {
       dispatch(updateIsLoading(false));
-      if (typeof data === "string") {
-        if (data === "you are not authenticated") {
-          dispatch(logout());
-        }
-        toast.error(data);
+      const { err } = response;
+      if (err) {
+        toast.error(err);
         return;
       }
       toast.success("email updated successfuly");
-      dispatch(fillUser(data.data));
-       navigate("/user");
+      Navigate("/user");
     }
   }
   async function fetchUser() {
     dispatch(updateIsLoading(true));
-    const data = await fetchData("user");
-    if (data) {
+    const response = await fetchData("user");
+    if (response) {
       dispatch(updateIsLoading(false));
-      if (typeof data === "string") {
-        if (data === "you are not authenticated") {
-          dispatch(logout());
-        }
-        toast.error(data);
+      const { data, err } = response;
+      if (err) {
+        toast.error(err);
         return;
       }
-      dispatch(preparingForUserUpdate(data.data));
+      // @ts-ignore
+      dispatch(preparingForUserUpdate(data));
     }
   }
   function fileOnChangeHandler(e: any) {
     const file = e.target.files[0];
-    setFileState({ state: true, file:{file} });
+    setFileState({ state: true, file: { file } });
   }
 
   async function avatarUpload(e: any) {
@@ -204,24 +199,19 @@ const UserUpdatePage = () => {
     const url: string = user.user.avatar.public_id
       ? "user/update-avatar"
       : "user/upload-avatar";
-    const method = user.user.avatar.public_id
-      ? "PUT"
-      : "POST";
-    const data = await fetchData(url, method, formData, true);
-    if (data) {
+    const method = user.user.avatar.public_id ? "PUT" : "POST";
+    const response = await fetchData(url, method, formData, true);
+    if (response) {
       dispatch(updateIsLoading(false));
-
-      if (typeof data === "string") {
-        if (data === "you are not authenticated") {
-          dispatch(logout());
-        }
-        toast.error(data);
+      const { err } = response;
+      if (err) {
+        toast.error(err);
         return;
       }
-      setFileState({state:false, file:{}})
+      setFileState({ state: false, file: {} });
       toast.success("profile image updated successfuly");
-      dispatch(fillUser(data.data));
-       navigate("/user");
+
+      Navigate("/user");
     }
   }
   useEffect(() => {

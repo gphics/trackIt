@@ -6,42 +6,40 @@ import fetchData from "../../Utils/DataFetch/fetchData";
 import { toast } from "react-toastify";
 import { debtSliceActions } from "../../Model/debtSlice";
 const DebtsPage = () => {
-  const { AllDebt,  DebtHeader } = DebtComponent;
+  const { AllDebt, DebtHeader } = DebtComponent;
   const { user } = useSelector((state: any) => state.userSlice);
-  const {setDebtsFromUser, clearDebtCreate, clearSingleDebt} = debtSliceActions
-  
+  const { setDebtsFromUser, clearDebtCreate, clearSingleDebt } =
+    debtSliceActions;
+
   const dispatch = useDispatch();
-  const { updateIsLoading, logout, fillUser } = userSliceActions;
+  const { updateIsLoading, fillUser } = userSliceActions;
   async function fetchProfile() {
     dispatch(updateIsLoading(true));
-    const data = await fetchData("user");
-    if (data) {
+    const response = await fetchData("user");
+    if (response) {
       dispatch(updateIsLoading(false));
-      if (typeof data === "string") {
-        if (data === "you are not authenticated") {
-          dispatch(logout());
-        }
-        toast.error(data);
+      const { err, data } = response;
+      if (err) {
+        toast.error(err);
         return;
       }
-      dispatch(fillUser(data.data));
-      dispatch(setDebtsFromUser(data.data.Debts))
+      dispatch(fillUser(data));
+      // @ts-ignore
+      dispatch(setDebtsFromUser(data.Debts));
     }
   }
   useEffect(() => {
     fetchProfile();
-    dispatch(clearDebtCreate())
-    dispatch(clearSingleDebt())
+    dispatch(clearDebtCreate());
+    dispatch(clearSingleDebt());
   }, []);
   return user._id ? (
     <div className="debt-page">
       <DebtHeader />
-      <AllDebt/>
+      <AllDebt />
     </div>
   ) : (
-      <div>
-        
-    </div>
+    <div></div>
   );
 };
 

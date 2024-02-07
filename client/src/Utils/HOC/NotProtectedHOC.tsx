@@ -1,13 +1,11 @@
-import { useNavigate, Outlet } from "react-router-dom";
+import { useNavigate, Outlet, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import Navbar from "../Others/Navbar";
 import menuAction from "../BtnActions/NavActions";
-import { useSelector } from "react-redux";
+import cookieOps from "../AuthStorage/cookieStore";
 
 export default function NotProtectedHOC() {
-  const { isAuthenticated } = useSelector(
-    (state: any) => state.userSlice
-  );
+  const location = useLocation();
   type arr = { url: string; name: string };
   const navArr: arr[] = [
     { name: "home", url: "/landing-page" },
@@ -16,14 +14,14 @@ export default function NotProtectedHOC() {
   ];
   const Navigate = useNavigate();
   useEffect(() => {
-    if (isAuthenticated) Navigate("/");
-  }, [isAuthenticated, Navigate]);
+    const isAuth = cookieOps.isAuth();
+    if (isAuth) Navigate("/");
+  }, [location]);
 
   return (
     <>
-
       <Navbar navArr={navArr} menuAction={menuAction} />
-     
+
       <Outlet />
     </>
   );

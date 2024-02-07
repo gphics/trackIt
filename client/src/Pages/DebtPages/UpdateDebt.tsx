@@ -17,41 +17,39 @@ const UpdateDebt = () => {
   async function onSubmit(e: any) {
     e.preventDefault();
     dispatch(updateIsLoading(true));
-    const data = await fetchData("debt/update/" + id, "PUT", debtCreate);
-    if (data) {
+    const response = await fetchData("debt/" + id, "PUT", debtCreate);
+    if (response) {
       dispatch(updateIsLoading(false));
-      if (typeof data === "string") {
-        if (data === "you are not authenticated") {
-          dispatch(logout);
-        }
-        toast.error(data);
+      const { data, err } = response;
+      if (err) {
+        toast.error(err);
         return;
       }
-      dispatch(fillSingleDebt(data.data));
+      // @ts-ignore
+      dispatch(fillSingleDebt(data));
       navigate("/debt/" + id);
     }
   }
 
   async function fetchDebt() {
     dispatch(updateIsLoading(true));
-    const data = await fetchData("debt/" + id);
+    const response = await fetchData("debt/" + id);
 
-    if (data) {
+    if (response) {
       dispatch(updateIsLoading(false));
-
-      if (typeof data === "string") {
-        if (data === "you are not authenticated") {
-          dispatch(logout);
-        }
-        toast.error(data);
+      const { err, data } = response;
+      if (err) {
+        toast.error(err);
         return;
       }
-      const { incurredDate: inc, deadline: dead } = data.data;
+      // @ts-ignore
+      const { incurredDate: inc, deadline: dead } = data;
       const [incurredDate, deadline] = [
         dateInputFormatter(inc),
         dateInputFormatter(dead),
       ];
-      dispatch(fillDebtCreate({ ...data.data, incurredDate, deadline }));
+      // @ts-ignore
+      dispatch(fillDebtCreate({ ...data, incurredDate, deadline }));
     }
   }
   useEffect(() => {

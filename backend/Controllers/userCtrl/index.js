@@ -1,9 +1,7 @@
 const { upload } = require("../../Config/cloudinaryStore");
-const checkIsLogin = require("../../Middlewares/Auth/checkIsLogin");
-const checkIsNotLogin = require("../../Middlewares/Auth/checkIsNotLogin");
 const checkUserExist = require("../../Middlewares/Auth/checkUserExist");
-const dualFactorAuthCtrl = require("./Main/dualFactorAuthCtrl");
-const enableDualFactorAuthCtrl = require("./Main/enableDualFactorAuthCtrl");
+const dontPermitIfAuth = require("../../Middlewares/Auth/dontPermitIfAuth");
+const permitIfAuth = require("../../Middlewares/Auth/permitIfAuth");
 const loginCtrl = require("./Main/loginCtrl");
 const logoutCtrl = require("./Main/logoutCtrl");
 const notificationSubscribeCtrl = require("./Main/notificationSubscribeCtrl");
@@ -15,75 +13,63 @@ const updateEmailCtrl = require("./Main/updateEmailCtrl");
 const updatePasswordCtrl = require("./Main/updatePasswordCtrl");
 const updateUserInfoCtrl = require("./Main/updateUserInfoCtrl");
 const uploadAvatarCtrl = require("./Main/uploadAvatarCtrl");
+
 module.exports = [
   {
     url: "/register",
     method: "post",
-    action: registerCtrl, 
-    mid: [checkIsNotLogin, checkUserExist],
+    action: registerCtrl,
+    mid: [dontPermitIfAuth, checkUserExist],
   },
   {
     url: "/reset-password",
     method: "post",
     action: resetPasswordCtrl,
-    mid: [checkIsNotLogin],
+    mid: [dontPermitIfAuth],
   },
 
-  {
-    url: "/enable-dfa",
-    method: "post",
-    action: enableDualFactorAuthCtrl,
-    mid: [checkIsLogin],
-  },
-
-  {
-    url: "/dfa",
-    method: "post",
-    action: dualFactorAuthCtrl,
-    mid: [checkIsNotLogin],
-  },
-  { url: "/login", method: "post", action: loginCtrl, mid:[checkIsNotLogin] },
-  { url: "/logout", method: "get", action: logoutCtrl, mid: [checkIsLogin] },
+  { url: "/login", method: "post", action: loginCtrl, mid: [dontPermitIfAuth] },
+  { url: "/logout", method: "get", action: logoutCtrl, mid: [permitIfAuth] },
   {
     url: "/update",
     method: "put",
     action: updateUserInfoCtrl,
-    mid: [checkIsLogin],
+    mid: [permitIfAuth],
   },
   {
     url: "/subscribe",
     method: "post",
     action: notificationSubscribeCtrl,
-    mid: [checkIsLogin],
+    mid: [permitIfAuth],
   },
   {
     url: "/update-password",
     method: "put",
     action: updatePasswordCtrl,
-    mid: [checkIsLogin],
+    mid: [permitIfAuth],
   },
   {
     url: "/update-email",
     method: "put",
     action: updateEmailCtrl,
-    mid: [checkIsLogin, checkUserExist],
+    mid: [permitIfAuth, checkUserExist],
   },
   {
     url: "/upload-avatar",
     method: "post",
     action: uploadAvatarCtrl,
-    mid: [checkIsLogin, upload.single("avatar")],
-  }, 
+    mid: [permitIfAuth, upload.single("avatar")],
+  },
   {
     url: "/update-avatar",
     method: "put",
     action: updateAvatarCtrl,
-    mid: [checkIsLogin, upload.single("avatar")],
+    mid: [permitIfAuth, upload.single("avatar")],
   },
   {
     url: "",
     method: "get",
     action: profileCtrl,
-    mid: [checkIsLogin],
+    mid: [permitIfAuth],
   },
 ];

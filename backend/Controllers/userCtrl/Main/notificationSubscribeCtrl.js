@@ -1,10 +1,16 @@
 const UserModel = require("../../../Models/UserModel");
 const webPush = require("../../../Config/webPush");
 const activateError = require("../../../Utils/activateError");
+const jwtVerify = require("../../../Config/jwtVerify");
 module.exports = async (req, res, next) => {
   try {
+    const { auth_token } = req.query;
+    const { data, err } = jwtVerify(auth_token);
+    if (err) {
+      return next(activateError(err));
+    }
     const { subscription } = req.body;
-    const user = await UserModel.findById(req.session.authID);
+    const user = await UserModel.findOne({ email: data.email });
     user.notificationSubscriptions.push(subscription);
     await user.save();
     const payload = JSON.stringify({
@@ -12,7 +18,7 @@ module.exports = async (req, res, next) => {
       body: "welcome to trackIt",
     });
     await webPush.sendNotification(subscription, payload);
-    res.json({ data: "subscription added" });
+    res.json({ data: { auth_token, data: "subscription added" }, err: null });
   } catch (error) {
     next(activateError(error.message));
   }

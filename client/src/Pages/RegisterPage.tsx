@@ -6,13 +6,14 @@ import { BsFillPersonFill, BsPersonFillLock } from "react-icons/bs";
 import { PiGenderIntersexBold } from "react-icons/pi";
 import { toast } from "react-toastify";
 import fetchData from "../Utils/DataFetch/fetchData";
-import inputType from "../Utils/TypeAnnotations/formInputAnn"
+import inputType from "../Utils/TypeAnnotations/formInputAnn";
+import { useNavigate } from "react-router-dom";
 const RegisterPage = () => {
-
+  const Navigate = useNavigate();
   const dispatch: any = useDispatch();
   const { registerDetails } = useSelector((state: any) => state.userSlice);
 
-  const { registerStateUpdate, updateIsLoading, fillUser, clearRegisterState } =
+  const { registerStateUpdate, updateIsLoading, clearRegisterState } =
     userSliceActions;
   function onChange(name: string, value: string): void {
     const payload = { name, value };
@@ -74,17 +75,18 @@ const RegisterPage = () => {
       return;
     }
     dispatch(updateIsLoading(true));
-    const data = await fetchData("user/register", "POST", registerDetails);
-    if (data) {
+    const response = await fetchData("user/register", "POST", registerDetails);
+    if (response) {
       dispatch(updateIsLoading(false));
-
-      if (data.data) {
-        dispatch(fillUser(data.data));
+      const { err, data } = response;
+      if (data) {
         dispatch(clearRegisterState());
-        toast.success("account created successfuly");
+        // @ts-ignore
+        toast.success(data);
+        Navigate("/user/update");
         return;
       }
-      toast.error(data);
+      toast.error(err);
       return;
     }
   }

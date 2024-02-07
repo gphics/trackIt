@@ -25,7 +25,10 @@ module.exports = async (req, res, next) => {
     `;
     sendMail(email, "Password reset", html);
     res.json({
-      data: "Your new password has been sent to the provided email, if email not delivered click on the reset button again",
+      data: {
+        data: "Your new password has been sent to the provided email, if email not delivered click on the reset button again",
+      },
+      err: null,
     });
   } catch (error) {
     next(activateError(error.message));

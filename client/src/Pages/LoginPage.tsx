@@ -6,9 +6,11 @@ import { BsPersonFillLock } from "react-icons/bs";
 import { toast } from "react-toastify";
 import fetchData from "../Utils/DataFetch/fetchData";
 import formInputAnn from "../Utils/TypeAnnotations/formInputAnn";
+import { useNavigate } from "react-router-dom";
 const LoginPage = () => {
+  const Navigate = useNavigate();
   const dispatch = useDispatch();
-  const { loginStateUpdate, fillUser, updateIsLoading, clearLoginState } =
+  const { loginStateUpdate, updateIsLoading, clearLoginState } =
     userSliceActions;
   const { loginDetails } = useSelector((state: any) => state.userSlice);
 
@@ -45,18 +47,19 @@ const LoginPage = () => {
       return;
     }
     dispatch(updateIsLoading(true));
-    const data = await fetchData("user/login", "POST", loginDetails);
-    if (data) {
-      dispatch(updateIsLoading(false));
+    const response = await fetchData("user/login", "POST", loginDetails);
 
-      if (typeof data === "string") {
-        toast.error(data);
-        console.log(data);
+    if (response) {
+      dispatch(updateIsLoading(false));
+      const { data, err } = response;
+      if (err) {
+        toast.error(err);
         return;
       }
-      dispatch(fillUser(data.data));
       dispatch(clearLoginState());
-      toast.success("login successful");
+      // @ts-ignore
+      toast.success(data);
+      Navigate("/");
     }
   }
   async function passwordReset() {
@@ -67,15 +70,18 @@ const LoginPage = () => {
       return;
     }
     dispatch(updateIsLoading(true));
-    const data = await fetchData("user/reset-password", "POST", { email });
+    const response = await fetchData("user/reset-password", "POST", { email });
 
-    if (data) {
+    if (response) {
+      const { err, data } = response;
+
       dispatch(updateIsLoading(false));
-      if (typeof data === "string") {
-        toast.error(data);
+      if (err) {
+        toast.error(err);
         return;
       }
-      toast.success(data.data);
+      // @ts-ignore
+      toast.success(data);
     }
   }
   return (

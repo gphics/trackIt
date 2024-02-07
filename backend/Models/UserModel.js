@@ -24,16 +24,6 @@ const userSchema = mongoose.Schema(
       type: Boolean,
       required: true,
     },
-
-    dual_factor_auth: {
-      state: {
-        type: Boolean,
-        default: false,
-      },
-      passcode: {
-        type: Number,
-      },
-    },
     contact: {
       type: Number,
     },
@@ -55,10 +45,10 @@ const userSchema = mongoose.Schema(
       },
       to_be_collected: {
         type: Number,
-        default : 0,
+        default: 0,
       },
     },
-    totalPaidDebt:{
+    totalPaidDebt: {
       amount: { type: Number, default: 0 },
       count: { type: Number, default: 0 },
     },

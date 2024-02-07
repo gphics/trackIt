@@ -1,14 +1,13 @@
-import { useNavigate, Outlet } from "react-router-dom";
+import { useNavigate, Outlet, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import Navbar from "../Others/Navbar";
 import menuAction from "../BtnActions/NavActions";
 import { useSelector } from "react-redux";
+import cookieOps from "../AuthStorage/cookieStore";
 
 export default function ProtectedHOC() {
-  const {
-    isAuthenticated,
-    user: { createdAt, updatedAt },
-  } = useSelector((state: any) => state.userSlice);
+  const location = useLocation();
+  const { user } = useSelector((state: any) => state.userSlice);
   const Navigate = useNavigate();
   type arr = { url: string; name: string };
   const navArr: arr[] = [
@@ -19,22 +18,22 @@ export default function ProtectedHOC() {
     { name: "logout", url: "" },
   ];
   useEffect(() => {
-    if (!isAuthenticated) {
+    const isAuth = cookieOps.isAuth();
+    if (!isAuth) {
       Navigate("/landing-page");
       return;
     }
-    if (createdAt && updatedAt) {
-      if (createdAt.toString() === updatedAt.toString()) {
+    if (user?.createdAt && user?.updatedAt) {
+      if (user?.createdAt.toString() === user?.updatedAt.toString()) {
         Navigate("/user/update");
         return;
       }
     }
-  }, [isAuthenticated, Navigate]);
+  }, [location]);
 
   return (
     <>
       <Navbar menuAction={menuAction} navArr={navArr} />
-
       <Outlet />
     </>
   );

@@ -1,5 +1,4 @@
 export default interface stateType {
-    isAuthenticated: boolean,
     isLoading: boolean,
     registerDetails: {
         fullname: string,

@@ -5,54 +5,51 @@ import fetchData from "../../Utils/DataFetch/fetchData";
 import { useNavigate, useParams } from "react-router-dom";
 import { userSliceActions } from "../../Model/userSlice";
 import { reminderSliceActions } from "../../Model/reminderSlice";
-import {toast} from "react-toastify"
+import { toast } from "react-toastify";
 import dateInputFormatter from "../../Utils/DataFetch/dateInputFormatter";
 const UpdateReminder = () => {
-  const dispatch = useDispatch()
-  const { id } = useParams()
-  const Navigate = useNavigate()
-  const { updateIsLoading, logout } = userSliceActions
-  const { fillReminderCreate, clearReminderCreate } = reminderSliceActions
-  const {reminderCreate} = useSelector((state:any)=> state.reminderSlice)
+  const dispatch = useDispatch();
+  const { id } = useParams();
+  const Navigate = useNavigate();
+  const { updateIsLoading } = userSliceActions;
+  const { fillReminderCreate, clearReminderCreate } = reminderSliceActions;
+  const { reminderCreate } = useSelector((state: any) => state.reminderSlice);
   async function onSubmit(e: any) {
     e.preventDefault();
     dispatch(updateIsLoading(true));
-    const data = await fetchData('reminder/update/' + id, "PUT", reminderCreate)
-     if (data) {
-       dispatch(updateIsLoading(false));
-       if (typeof data === "string") {
-         if (data === "you are not authenticated") {
-           dispatch(logout());
-         }
-         toast.error(data);
-         return;
-       }
-       
+    const response = await fetchData("reminder/" + id, "PUT", reminderCreate);
+    if (response) {
+      const { err } = response;
+      dispatch(updateIsLoading(false));
+      if (err) {
+        toast.error(err);
+        return;
+      }
 
-       dispatch(clearReminderCreate());
-       Navigate("/reminder/"+id)
-     }
+      dispatch(clearReminderCreate());
+      Navigate("/reminder/" + id);
+    }
   }
   async function fetchReminder() {
-  dispatch(updateIsLoading(true))
-    const data = await fetchData("reminder/" + id)
-       if (data) {
-         dispatch(updateIsLoading(false));
-         if (typeof data === "string") {
-           if (data === "you are not authenticated") {
-             dispatch(logout());
-           }
-           toast.error(data);
-           return;
-         }
-         const dueDate = dateInputFormatter(data.data.dueDate)
-
-         dispatch(fillReminderCreate({...data.data, dueDate}));
-       }
-}
+    dispatch(updateIsLoading(true));
+    const response = await fetchData("reminder/" + id);
+    if (response) {
+      dispatch(updateIsLoading(false));
+      const { err, data } = response;
+      if (err) {
+        toast.error(err);
+        return;
+      }
+        // @ts-ignore
+        const dueDate = dateInputFormatter(data.dueDate);
+        // @ts-ignore
+        dispatch(fillReminderCreate({ ...data, dueDate }));
+      }
+    }
+  
   useEffect(() => {
-    fetchReminder()
-  },[id])
+    fetchReminder();
+  }, [id]);
   return (
     <div className="update-reminder-page">
       <ReminderForm isUpdate={true} onSubmit={onSubmit} />

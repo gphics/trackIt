@@ -1,8 +1,14 @@
 const { configuredCloudinary } = require("../../../Config/cloudinaryStore");
+const jwtVerify = require("../../../Config/jwtVerify");
 const UserModel = require("../../../Models/UserModel");
 const activateError = require("../../../Utils/activateError");
 
 module.exports = async (req, res, next) => {
+  const { auth_token } = req.query;
+  const { data, err } = jwtVerify(auth_token);
+  if (err) {
+    return next(activateError(err));
+  }
   // if the user didint provide the file
   if (!req.file) {
     return next(activateError("file must be uploaded"));
@@ -19,7 +25,7 @@ module.exports = async (req, res, next) => {
       req.file.mimetype === "image/jpg" ||
       req.file.mimetype === "image/png"
     ) {
-      const user = await UserModel.findById(req.session.authID);
+      const user = await UserModel.findOne({ email: data.email });
       // deleting the image on cloudinary
       await configuredCloudinary.uploader.destroy(user.avatar.public_id);
       // uploading new one
@@ -30,17 +36,17 @@ module.exports = async (req, res, next) => {
           if (err) return next(activateError(err.message));
           const { public_id, secure_url } = result;
           user.avatar = { url: secure_url, public_id };
-          const resavedUser = await user.save();
-          res.json({ data: resavedUser });
+          await user.save();
+          res.json({
+            data: { auth_token, data: "profile image updated successfully" },
+            err: null,
+          });
         }
       );
     } else {
-      return next(
-        activateError(`${req.file.mimetype} format not supported`)
-      );
+      return next(activateError(`${req.file.mimetype} format not supported`));
     }
   } catch (error) {
-
     next(activateError(error.message));
   }
 };

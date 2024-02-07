@@ -1,8 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit"
-import AuthStorage from "../Utils/AuthStorage"
 import userSliceAnn from "../Utils/TypeAnnotations/userSliceAnn"
 const initialState: userSliceAnn = {
-    isAuthenticated: AuthStorage.getItem("isAuthenticated"),
     isLoading: false,
     registerDetails: {
         fullname: "",
@@ -48,11 +46,8 @@ const userSlice = createSlice({
         },
         fillUser: (state, action) => {
             state.user = action.payload
-            state.isAuthenticated = true
-            AuthStorage.setItem("isAuthenticated", "true")
         },
         logout: (state: any) => {
-            AuthStorage.removeItem("isAuthenticated")
             return {
                 ...state, isAuthenticated: false,
                 isLoading: false,

@@ -1,4 +1,3 @@
-
 import DebtForm from "../../Components/DebtComponent/DebtForm";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
@@ -12,7 +11,7 @@ const CreateDebt = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { updateIsLoading } = userSliceActions;
-  const {clearDebtCreate} = debtSliceActions
+  const { clearDebtCreate } = debtSliceActions;
   async function onSubmit(e: any) {
     e.preventDefault();
     if (!title) {
@@ -29,14 +28,15 @@ const CreateDebt = () => {
     }
 
     dispatch(updateIsLoading(true));
-    const data = await fetchData("debt/create", "POST", debtCreate);
-    if (data) {
+    const response = await fetchData("debt/create", "POST", debtCreate);
+    if (response) {
       dispatch(updateIsLoading(false));
-      if (typeof data === "string") {
-        toast.error(data);
+      const { err } = response;
+      if (err) {
+        toast.error(err);
         return;
       }
-      dispatch(clearDebtCreate())
+      dispatch(clearDebtCreate());
       navigate("/debt");
     }
   }

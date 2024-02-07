@@ -1,4 +1,4 @@
-const checkIsLogin = require("../../Middlewares/Auth/checkIsLogin");
+const permitIfAuth = require("../../Middlewares/Auth/permitIfAuth");
 const createDebtCtrl = require("./Main/createDebtCtrl");
 const deleteDebtCtrl = require("./Main/deleteDebtCtrl");
 const fetchAllDebtsCtrl = require("./Main/fetchAllDebtsCtrl");
@@ -10,31 +10,31 @@ module.exports = [
     url: "/create",
     action: createDebtCtrl,
     method: "post",
-    mid: [checkIsLogin],
+    mid: [permitIfAuth],
   },
   {
-    url: "/fetch-all",
+    url: "/all",
     action: fetchAllDebtsCtrl,
     method: "get",
-    mid: [checkIsLogin],
+    mid: [permitIfAuth],
   },
 
   {
-    url: "/delete/:debtID",
+    url: "/:debtID",
     action: deleteDebtCtrl,
     method: "delete",
-    mid: [checkIsLogin],
+    mid: [permitIfAuth],
   },
   {
-    url: "/update/:debtID",
+    url: "/:debtID",
     action: updateDebtCtrl,
     method: "put",
-    mid: [checkIsLogin],
+    mid: [permitIfAuth],
   },
   {
     url: "/:debtID",
     action: fetchSingleDebtCtrl,
     method: "get",
-    mid: [checkIsLogin],
+    mid: [permitIfAuth],
   },
 ];

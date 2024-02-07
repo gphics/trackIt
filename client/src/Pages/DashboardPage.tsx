@@ -15,17 +15,15 @@ const DashboardPage = () => {
   const [show, setShow] = useState(false);
   async function fetchDashboardInfo() {
     dispatch(updateIsLoading(true));
-    const data = await fetchData("user");
-    if (data) {
+    const response = await fetchData("user");
+    if (response) {
       dispatch(updateIsLoading(false));
-      if (typeof data === "string") {
-        if (data === "you are not authenticated") {
-          dispatch(logout());
-        }
-        toast.error(data);
+      const { err, data } = response;
+      if (err) {
+        toast.error(err);
         return;
       }
-      dispatch(fillUser(data.data));
+      dispatch(fillUser(data));
     }
   }
   function closeModal() {
@@ -47,6 +45,7 @@ const DashboardPage = () => {
       {/* control unit */}
       <header>
         <button
+          type="button"
           onClick={() => {
             setControl(1);
           }}
@@ -55,6 +54,7 @@ const DashboardPage = () => {
           debts
         </button>
         <button
+          type="button"
           onClick={() => {
             setControl(2);
           }}

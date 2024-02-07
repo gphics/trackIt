@@ -11,23 +11,21 @@ const SingleDebt = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { singleDebt } = useSelector((state: any) => state.debtSlice);
-  const { updateIsLoading, logout } = userSliceActions;
+  const { updateIsLoading } = userSliceActions;
   const { fillSingleDebt, clearSingleDebt } = debtSliceActions;
   async function fetchDebt() {
     dispatch(updateIsLoading(true));
-    const data = await fetchData("debt/" + id);
+    const response = await fetchData("debt/" + id);
 
-    if (data) {
+    if (response) {
       dispatch(updateIsLoading(false));
-
-      if (typeof data === "string") {
-        if (data === "you are not authenticated") {
-          dispatch(logout);
-        }
-        toast.error(data);
+      const { err, data } = response;
+      if (err) {
+        toast.error(err);
         return;
       }
-      dispatch(fillSingleDebt(data.data));
+      // @ts-ignore
+      dispatch(fillSingleDebt(data));
     }
   }
   useEffect(() => {
@@ -37,14 +35,17 @@ const SingleDebt = () => {
     name: string;
     value: string | number;
   };
-  
+
   const arr: arrType[] = singleDebt && [
     { name: "title", value: singleDebt.title },
     { name: "amount", value: singleDebt.amount },
     { name: "paid", value: singleDebt.paid },
     { name: "debt info", value: singleDebt.debtInfo },
     { name: "category", value: singleDebt.category },
-    { name: "incurred date", value: new Date(singleDebt.incurredDate).toDateString() },
+    {
+      name: "incurred date",
+      value: new Date(singleDebt.incurredDate).toDateString(),
+    },
     { name: "deadline", value: new Date(singleDebt.deadline).toDateString() },
   ];
   function showOtherInfo(obj: any): boolean {
@@ -55,22 +56,23 @@ const SingleDebt = () => {
   }
   async function deleteDebt(e: any) {
     dispatch(updateIsLoading(true));
-    const data = await fetchData("debt/delete/" + singleDebt._id, "DELETE");
-    if (data) {
-      dispatch(updateIsLoading(true));
-      if (typeof data === "string") {
-        if (data === "you are not authenticated") {
-          dispatch(logout());
-        }
-        toast.error(data);
+    const response = await fetchData("debt/" + singleDebt._id, "DELETE");
+    if (response) {
+      dispatch(updateIsLoading(!true));
+      const { err, data } = response;
+      if (err) {
+        toast.error(err);
+        return;
       }
-
-      toast.success(data.data);
+      // @ts-ignore
+      toast.success(data);
       dispatch(clearSingleDebt());
       navigate("/debt");
       return;
     }
   }
+
+  
   return singleDebt?._id ? (
     <div className="single-debt-page">
       <h4>Debt Information</h4>
@@ -122,9 +124,7 @@ const SingleDebt = () => {
         </Link>
       </div>
     </div>
-  ) : (
-    <></>
-  );
+  ):<></>;
 };
 
 export default SingleDebt;

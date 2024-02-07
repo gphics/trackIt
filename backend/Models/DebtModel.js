@@ -6,6 +6,10 @@ const debtSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    amount: {
+      type: Number,
+      required: true,
+    },
     debtInfo: {
       type: String,
       required: true,
@@ -33,10 +37,7 @@ const debtSchema = mongoose.Schema(
       contact: Number,
       location: String,
     },
-    amount: {
-      type: Number,
-      required: true,
-    },
+
     incurredDate: {
       type: Date,
       default: null,

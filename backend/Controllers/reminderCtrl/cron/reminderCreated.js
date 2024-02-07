@@ -12,7 +12,7 @@ const {
   dailyString,
 } = require("../../../Utils/cronStringGenerators");
 
-module.exports = (dueDate, reminderId, authID) => {
+module.exports = (dueDate, reminderId, userID) => {
   nodeCron.schedule(tenSecondsBefore(dueDate), async () => {
     //   getting the reminder
     const reminder = await ReminderModel.findById(reminderId);
@@ -24,7 +24,6 @@ module.exports = (dueDate, reminderId, authID) => {
 
     // if the reminder has been deleted or updated
     if (!reminder || createdAt !== updatedAt) {
-      console.log("from the tenSecondsBefore, the reminder has been deleted");
       return;
     }
     // if there is no changes to the reminder, then set the cron job
@@ -33,12 +32,12 @@ module.exports = (dueDate, reminderId, authID) => {
       reminderId,
       reminder.repeat,
       reminder.repetitionInterval,
-      authID
+      userID
     ).start();
   });
 };
 
-function setMainTask(dueDate, reminderId, repeat, repetitionInterval, authID) {
+function setMainTask(dueDate, reminderId, repeat, repetitionInterval, userID) {
   try {
     // configuring the dateString
     let dateString = actualDateString(dueDate);
@@ -56,7 +55,7 @@ function setMainTask(dueDate, reminderId, repeat, repetitionInterval, authID) {
       dateString,
       async () => {
         const reminder = await ReminderModel.findById(reminderId);
-        const user = await UserModel.findById(authID);
+        const user = await UserModel.findById(userID);
         const [createdAt, updatedAt] = dateStringGenerator(
           reminder.createdAt,
           reminder.updatedAt
@@ -64,9 +63,6 @@ function setMainTask(dueDate, reminderId, repeat, repetitionInterval, authID) {
 
         // if the reminder has been updated or deleted
         if (!reminder || createdAt !== updatedAt) {
-          console.log(
-            "the reminder has been updated so the cron job was returned"
-          );
           return;
         }
 
@@ -96,7 +92,6 @@ function setMainTask(dueDate, reminderId, repeat, repetitionInterval, authID) {
               await webPush.sendNotification(subscription, notificationPayload)
           )
         );
-        console.log("from the created , i sent all");
       },
       { scheduled: false }
     );
