@@ -15,7 +15,7 @@ dbConnect();
 // production
 app.use(
   cors({
-    origin: "*",
+    origin: "https://trackit-gb3z.onrender.com",
   })
 );
 
