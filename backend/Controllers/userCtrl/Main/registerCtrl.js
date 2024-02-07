@@ -13,21 +13,20 @@ module.exports = async (req, res, next) => {
     return next(activateError("password field length must be greater than 6"));
   }
 
-  try {
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-    const user = await UserModel.create({
-      fullname,
-      email,
-      password: hashedPassword,
-      isActive: true,
-      gender,
-    });
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(password, salt);
+  const user = await UserModel.create({
+    fullname,
+    email,
+    password: hashedPassword,
+    isActive: true,
+    gender,
+  });
 
-    if (user) {
-      const auth_token = jwtSign({ email });
-      // writeup to be sent to mail if user created successfully
-      const html = `
+  if (user) {
+    const auth_token = jwtSign({ email });
+    // writeup to be sent to mail if user created successfully
+    const html = `
 <html>
 <style>
 body{
@@ -44,14 +43,11 @@ Welcome to trackIt, ${gender === "male" ? "Mr " + fullname : "Mrs " + fullname}.
 </html>
 `;
 
-      sendMail(email, "Account creation", html);
+    sendMail(email, "Account creation", html);
 
-      return res.json({
-        data: { auth_token, data: "user created successfully" },
-        err: null,
-      });
-    }
-  } catch (error) {
-    return next(activateError(error.message));
+    return res.json({
+      data: { auth_token, data: "user created successfully" },
+      err: null,
+    });
   }
 };
